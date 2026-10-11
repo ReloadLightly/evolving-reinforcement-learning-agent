@@ -1,0 +1,4 @@
+# Scientific artifact hashes identify exact recorded bytes.
+results/** -text
+# Python's csv writer emits standard CRLF records; preserve and accept them.
+*.csv -text whitespace=cr-at-eol
