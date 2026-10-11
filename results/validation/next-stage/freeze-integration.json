@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "freeze_id": "e3ede260aee6177d000c53e9727f40bd68f4f77c97367aaa2b737bc6e1a130d2",
+  "dry_run_exit": 0,
+  "plan_and_lifecycle_unchanged": true,
+  "confirmatory_runs_started": 0,
+  "completion_audit_exit": 2,
+  "effects_withheld": true,
+  "plan_sha256": {
+    "freeze.json": "079cb29c1d6c47e3997780e6efd2c68e9acfd89546fa3f10cd76fd8af417f952",
+    "manifest.csv": "b4f1cde91137fb3a64146bf505b152b737df08c8091d6dbf86517578cec3f32d",
+    "seed-manifest.json": "af1e99e1aa9ebaac74e22a70dfd9b18dbff3e0ff2ae8e7b8d670fbe8889426e4",
+    "lifecycle.json": "53820848d7e7245863199f853530ee18170a30407cf354683ed138328d374fd6",
+    "lifecycle.csv": "f373075b4ecbb7bc9c2d0cab0e3d89f8f8aee63390db59d54e0fa0bba586eb00",
+    "progress.md": "6676fc6f6cccf6542de1dd9d0b7a681cd9955cee35f3b2ad2a2f9e3033160590"
+  }
+}

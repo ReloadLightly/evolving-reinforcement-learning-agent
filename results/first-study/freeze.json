@@ -1,0 +1,177 @@
+{
+  "calibration_sha256": "c6da11c27bbffde51f8526816b647daf862878b5842b30a8eae40fc3fba85b8a",
+  "config": {
+    "analysis": {
+      "analysis_seed": 20261012,
+      "bootstrap_resamples": 10000,
+      "bootstrap_unit": "whole training-seed block, preserving both arms and both delays",
+      "interval_percentiles": [
+        2.5,
+        97.5
+      ],
+      "missing_data": "No primary inference until all 40 declared runs pass validation; retain failures.",
+      "normalization": "independent pilot calibration mean to theoretical upper bound zero",
+      "practical_effect_threshold": 0.05,
+      "primary_delay": 20,
+      "primary_outcome": "paired balanced-minus-pooled normalized native-return AUC",
+      "secondary_outcome": "delay-20 minus delay-1 paired AUC contrast"
+    },
+    "arms": [
+      "erl_pooled",
+      "erl_balanced"
+    ],
+    "diagnostics": "full",
+    "episode_horizon": 200,
+    "evaluation": {
+      "episodes": 5,
+      "include_initial": true,
+      "interval": 10000,
+      "policy": "learner",
+      "reward": "native"
+    },
+    "execution": {
+      "device": "cpu",
+      "maximum_workers": 2,
+      "threads_per_run": 1
+    },
+    "population": {
+      "elite_count": 1,
+      "injection_interval_post_warmup": 5000,
+      "injection_slot": 3,
+      "mutation_probability": 0.1,
+      "mutation_sigma": 0.02,
+      "size": 4,
+      "tournament_size": 2,
+      "tournament_with_replacement": true
+    },
+    "protocol_version": "first-stage-v1",
+    "purpose": "confirmatory",
+    "reward_delays": [
+      1,
+      20
+    ],
+    "seeds": [
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109
+    ],
+    "stage": "first",
+    "study_id": "erl_cpu_delay_replay_v1",
+    "task": "Pendulum-v1",
+    "training": {
+      "batch_size": 128,
+      "critic_updates_per_transition": 0.25,
+      "exploration_noise": 0.1,
+      "gamma": 0.99,
+      "hidden_sizes": [
+        64,
+        64
+      ],
+      "learning_rate": 0.0003,
+      "policy_delay": 2,
+      "replay_capacity": 100000,
+      "target_noise": 0.2,
+      "target_noise_clip": 0.5,
+      "tau": 0.005,
+      "total_transitions": 200000,
+      "warmup_transitions": 10000
+    }
+  },
+  "config_sha256": "2d1271b9622907c9fbe210e0413f38a5d82716376224fcf561d676824bf5905d",
+  "created_utc": "2026-10-11T22:57:16.117728+00:00",
+  "declaration": "Locally frozen before confirmatory execution; not an independent preregistration",
+  "files": {
+    "Pendulum-v1-probe.npy": "ccd6dde7ad1710d521daa6538a853066aa919e152301fc82f6221b9928e68efb",
+    "Reacher-v5-probe.npy": "9ce12ec129a7a39125ec7536ac1185a9306472ca500f43d356257b0d26d15612",
+    "calibration.json": "c6da11c27bbffde51f8526816b647daf862878b5842b30a8eae40fc3fba85b8a",
+    "configs/first-stage.json": "2d1271b9622907c9fbe210e0413f38a5d82716376224fcf561d676824bf5905d",
+    "docs/first-stage-protocol.md": "901dd7885d1554c6811620c489b1be7fd39d267217803b2ecee20288e3fd5e19",
+    "docs/protocol.md": "8f2dc2109cec19b45d3f4daf31f6e2e6af7bf9d10c4faa339ff180d12a496782",
+    "erl/__init__.py": "dd5ec775e7e6d9044bbef103a0d6c197f286702eda180c6acb5c741a8be78af1",
+    "erl/calibrate.py": "3a678c496e2799bd661499c110a5c1f2633b426bcee574cb891dbcd3d11afea9",
+    "erl/core.py": "991e7ecea3986365d1848263851814c1c82d465f3908c5e97bb11047ac3a92fa",
+    "erl/diagnostics.py": "dba92a3c4c3c1fd138a51e1ed5df71a74cc3a5128deb0409f54e608ecd31d71e",
+    "erl/envs.py": "1d2642f0d8eeb1efe3184b6a97c61beb47b847575795b89fcb1a8132bbfbcae6",
+    "erl/evolution.py": "30253748445ed04d08bd63d2dfbb92fe623c8d6ab20f416e45e539a90195962a",
+    "erl/train.py": "8981322fc82c64e999e2ca09717db1fd35442e39d9cc75fa9a51d4963fc06ac0",
+    "manifest.csv": "b4f1cde91137fb3a64146bf505b152b737df08c8091d6dbf86517578cec3f32d",
+    "requirements.txt": "ab62117677c29315c57a5c13fa575fb0bb37638f0ba4f909e1db2459a64d86f8",
+    "scripts/analyze_first.py": "eee8eaa0ae80d176ce86cf1e5ccb84836b461abd834b8af11aab9dea6662700f",
+    "scripts/freeze_study.py": "c522d691047a2f24262c18593d4a7100e90e8866dd6acb6c91cf64e90b6cd3c7",
+    "scripts/run_study.py": "7086bed72ddb79478744cfde69652ae120f64f1e9873286f53c22fc32828c5ed",
+    "scripts/study_common.py": "3c8e287b013f5b0055fd73372431871a7ccc091c50b4935918cc488ce0e0c242",
+    "scripts/validate_next_stage.py": "a4b0c6a7b7ca78f31a0e0c3b8232663bc9e0f769e77eec04f3db17ec6eeca419",
+    "seed-manifest.json": "af1e99e1aa9ebaac74e22a70dfd9b18dbff3e0ff2ae8e7b8d670fbe8889426e4",
+    "tests/test_analysis.py": "9ee42b708c9f5c890c6f23e5ed6b3e036e9e26b2798e4ae05ee6f68bc9f99343",
+    "tests/test_core.py": "8d155c71e0a2692b372cc011a585db0b2fd9e2366773cd935d348efe7ce7525f",
+    "tests/test_diagnostics.py": "1507109de56c8e57ad6894793bf93e7814d1036c36918838b6dd698769def037",
+    "tests/test_envs.py": "2bcc3defee6845b55e4419acdd7fa0ae79612f208a54d6739aa73b41feb27a95",
+    "tests/test_evolution.py": "9a9960ebbfe29f4a49e7a5ba117c06bb51a7e5d71c6f31797c99b82480df94bc",
+    "tests/test_study.py": "4b74648b64d2abe487adc73aaa9bdfac0202ed66c14b6c5069efc5e9c6ba93d1",
+    "tests/test_training.py": "e998a708de9be0dadd3a4961ee5e5f2adbe69c090f967a6a7be00d2510b4abef",
+    "validation.json": "a2d1eef17359e3615fe59df1563c8790e47abe74de2064aeb5424598728203fc"
+  },
+  "freeze_id": "e3ede260aee6177d000c53e9727f40bd68f4f77c97367aaa2b737bc6e1a130d2",
+  "manifest_sha256": "b4f1cde91137fb3a64146bf505b152b737df08c8091d6dbf86517578cec3f32d",
+  "planned_runs": 40,
+  "repository_files": [
+    "configs/first-stage.json",
+    "docs/first-stage-protocol.md",
+    "docs/protocol.md",
+    "erl/__init__.py",
+    "erl/calibrate.py",
+    "erl/core.py",
+    "erl/diagnostics.py",
+    "erl/envs.py",
+    "erl/evolution.py",
+    "erl/train.py",
+    "requirements.txt",
+    "scripts/analyze_first.py",
+    "scripts/freeze_study.py",
+    "scripts/run_study.py",
+    "scripts/study_common.py",
+    "scripts/validate_next_stage.py",
+    "tests/test_analysis.py",
+    "tests/test_core.py",
+    "tests/test_diagnostics.py",
+    "tests/test_envs.py",
+    "tests/test_evolution.py",
+    "tests/test_study.py",
+    "tests/test_training.py"
+  ],
+  "schema_version": 1,
+  "seed_manifest_sha256": "af1e99e1aa9ebaac74e22a70dfd9b18dbff3e0ff2ae8e7b8d670fbe8889426e4",
+  "snapshot": "snapshot/e3ede260aee6177d000c53e9727f40bd68f4f77c97367aaa2b737bc6e1a130d2",
+  "software": {
+    "executable": "/home/roland/actir/evolving-reinforcement-learning-agent/.venv/bin/python",
+    "implementation": "CPython",
+    "packages": {
+      "gymnasium": "1.4.0",
+      "matplotlib": "3.10.9",
+      "mujoco": "3.15.0",
+      "numpy": "2.2.6",
+      "torch": "2.7.1"
+    },
+    "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+    "python": "3.10.12"
+  },
+  "source_sha256": {
+    "erl/__init__.py": "dd5ec775e7e6d9044bbef103a0d6c197f286702eda180c6acb5c741a8be78af1",
+    "erl/calibrate.py": "3a678c496e2799bd661499c110a5c1f2633b426bcee574cb891dbcd3d11afea9",
+    "erl/core.py": "991e7ecea3986365d1848263851814c1c82d465f3908c5e97bb11047ac3a92fa",
+    "erl/diagnostics.py": "dba92a3c4c3c1fd138a51e1ed5df71a74cc3a5128deb0409f54e608ecd31d71e",
+    "erl/envs.py": "1d2642f0d8eeb1efe3184b6a97c61beb47b847575795b89fcb1a8132bbfbcae6",
+    "erl/evolution.py": "30253748445ed04d08bd63d2dfbb92fe623c8d6ab20f416e45e539a90195962a",
+    "erl/train.py": "8981322fc82c64e999e2ca09717db1fd35442e39d9cc75fa9a51d4963fc06ac0"
+  },
+  "total_evaluation_transitions": 840000,
+  "total_training_transitions": 8000000,
+  "validation_sha256": "a2d1eef17359e3615fe59df1563c8790e47abe74de2064aeb5424598728203fc"
+}

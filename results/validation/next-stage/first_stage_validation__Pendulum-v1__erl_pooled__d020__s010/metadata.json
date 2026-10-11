@@ -1,0 +1,88 @@
+{
+  "actor_updates": 750,
+  "arm": "erl_pooled",
+  "batch_size": 128,
+  "calibration_sha256": "c6da11c27bbffde51f8526816b647daf862878b5842b30a8eae40fc3fba85b8a",
+  "checkpoint_bytes": 10365346,
+  "completed_utc": "2026-10-11T22:49:43.154615+00:00",
+  "critic_updates": 1500,
+  "critic_updates_per_transition": 0.25,
+  "device": "cpu",
+  "diagnostic_configuration": {
+    "age_bin_edges": [
+      0,
+      1000,
+      5000,
+      10000,
+      25000,
+      50000,
+      100000,
+      200000,
+      "infinity"
+    ],
+    "gradient_definition": "cosine of joint twin-critic MSE gradients on independent 128-draw source batches",
+    "quantile_method": "linear",
+    "quantile_percentiles": [
+      0,
+      25,
+      50,
+      75,
+      90,
+      100
+    ],
+    "replay_diagnostic_sample_size": 128,
+    "reward_phase_zero": "aggregate over all phases; actual phases begin at one",
+    "sample_age_scope": "independent current-buffer diagnostic draws; not historical training draws",
+    "samples_per_source": 128,
+    "schema_version": 1
+  },
+  "diagnostics": "full",
+  "elapsed_s": 14.719458818000021,
+  "evaluation_episodes": 2,
+  "evaluation_interval": 2000,
+  "hidden_sizes": [
+    64,
+    64
+  ],
+  "horizon": 200,
+  "initialization": "PyTorch Linear defaults; separate stable learner/population seeds",
+  "injection_interval_post_warmup": 5000,
+  "logical_cpus": 8,
+  "packages": {
+    "gymnasium": "1.4.0",
+    "mujoco": "3.15.0",
+    "numpy": "2.2.6",
+    "torch": "2.7.1"
+  },
+  "peak_rss_mib": 593.984375,
+  "platform": "Linux-6.6.114.1-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+  "protocol_sha256": null,
+  "purpose": "validation",
+  "python": "3.10.12",
+  "replay_capacity": 100000,
+  "reward_delay": 20,
+  "run_id": "first_stage_validation__Pendulum-v1__erl_pooled__d020__s010",
+  "sampled_transitions": {
+    "ea": 153461,
+    "learner": 38539
+  },
+  "seed": 10,
+  "source_sha256": {
+    "erl/__init__.py": "dd5ec775e7e6d9044bbef103a0d6c197f286702eda180c6acb5c741a8be78af1",
+    "erl/calibrate.py": "3a678c496e2799bd661499c110a5c1f2633b426bcee574cb891dbcd3d11afea9",
+    "erl/core.py": "991e7ecea3986365d1848263851814c1c82d465f3908c5e97bb11047ac3a92fa",
+    "erl/diagnostics.py": "dba92a3c4c3c1fd138a51e1ed5df71a74cc3a5128deb0409f54e608ecd31d71e",
+    "erl/envs.py": "1d2642f0d8eeb1efe3184b6a97c61beb47b847575795b89fcb1a8132bbfbcae6",
+    "erl/evolution.py": "30253748445ed04d08bd63d2dfbb92fe623c8d6ab20f416e45e539a90195962a",
+    "erl/train.py": "8981322fc82c64e999e2ca09717db1fd35442e39d9cc75fa9a51d4963fc06ac0"
+  },
+  "started_utc": "2026-10-11T22:49:28.459936+00:00",
+  "status": "completed",
+  "task": "Pendulum-v1",
+  "threads": 1,
+  "total_diagnostic_seconds": 0.20546021399877645,
+  "total_evaluation_transitions": 3600,
+  "total_training_transitions": 16000,
+  "training_budget": 16000,
+  "warmup": 10000
+}

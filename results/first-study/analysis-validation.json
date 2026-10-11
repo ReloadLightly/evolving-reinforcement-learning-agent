@@ -1,0 +1,369 @@
+{
+  "complete": false,
+  "expected_runs": 40,
+  "validated_runs": 0,
+  "runs": [
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s100",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 100,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s100",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 100,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s100",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 100,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s100",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 100,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s101",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 101,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s101",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 101,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s101",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 101,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s101",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 101,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s102",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 102,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s102",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 102,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s102",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 102,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s102",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 102,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s103",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 103,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s103",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 103,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s103",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 103,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s103",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 103,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s104",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 104,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s104",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 104,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s104",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 104,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s104",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 104,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s105",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 105,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s105",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 105,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s105",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 105,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s105",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 105,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s106",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 106,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s106",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 106,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s106",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 106,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s106",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 106,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s107",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 107,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s107",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 107,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s107",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 107,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s107",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 107,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s108",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 108,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s108",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 108,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s108",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 108,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s108",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 108,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d001__s109",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 1,
+      "seed": 109,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d001__s109",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 1,
+      "seed": 109,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_pooled__d020__s109",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "delay": 20,
+      "seed": 109,
+      "status": "missing",
+      "reason": "No metadata.json"
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__main__Pendulum-v1__erl_balanced__d020__s109",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "delay": 20,
+      "seed": 109,
+      "status": "missing",
+      "reason": "No metadata.json"
+    }
+  ],
+  "unexpected_run_directories": [],
+  "inferential_analysis_allowed": false
+}

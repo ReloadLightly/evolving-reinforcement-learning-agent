@@ -1,11 +1,11 @@
 # When Does Evolutionary Experience Help?
 ### A controlled study of replay composition under delayed reward feedback
 
-**CPU pilot completed 12 October 2026 · Prospective delayed-reward study · Literature reviewed 11 October 2026**
+**CPU pilot completed 12 October 2026 · Next-stage implementation validated · Confirmatory execution pending**
 
 Follow the [research progress log](docs/progress.md) for published milestones, the current stage, and its next checks.
 
-The complete pilot's trained checkpoints and console logs are available in the [versioned `pilot-v1` release](https://github.com/ReloadLightly/evolving-reinforcement-learning-agent/releases/tag/pilot-v1), with SHA-256 checksums and restore instructions. The [first-stage protocol](docs/first-stage-protocol.md) specifies the next bounded experiment; its implementation is undergoing development validation.
+The complete pilot's trained checkpoints and console logs are available in the [versioned `pilot-v1` release](https://github.com/ReloadLightly/evolving-reinforcement-learning-agent/releases/tag/pilot-v1), with SHA-256 checksums and restore instructions. The [first-stage protocol](docs/first-stage-protocol.md) specifies the next bounded experiment. Its implementation has passed **55 tests and eight short development runs**; the [validation report](results/validation/next-stage/report.md) and [next-stage learning guide](docs/next-stage-guide.md) explain those checks. The 40-run confirmatory experiment has not started.
 
 > **Status:** all 24 CPU pilot runs completed with zero failures and passed artifact checks. Every learner improved from initialization. The pilot uses immediate rewards and three training seeds per condition; the delayed-reward hypotheses remain untested. This README reports measured pilot results alongside the prospective confirmatory protocol.
 
@@ -141,7 +141,7 @@ This approach follows the emphasis on uncertainty and experimental design in [Ag
 
 ## 5. Visualization and analysis plan
 
-The completed pilot provides [nine figure families](results/pilot/report.md), each exported as PNG, SVG, and PDF, plus an [offline explorer](results/pilot/explorer.html). They cover learning curves, initial-to-final change, AUC, replay provenance, resident age/reuse, behavioral diversity, CPU/storage cost, and evolutionary lineage. All empirical panels use recorded measurements. The table below preserves the broader confirmatory visualization plan; delayed-reward effects and richer diagnostics remain future work.
+The completed pilot provides [nine figure families](results/pilot/report.md), each exported as PNG, SVG, and PDF, plus an [offline explorer](results/pilot/explorer.html). They cover learning curves, initial-to-final change, AUC, replay provenance, resident age/reuse, behavioral diversity, CPU/storage cost, and evolutionary lineage. All empirical panels use recorded measurements. The next-stage analyzer now implements ten figure families, including paired effects, the delay interaction, sampled-age heatmaps, replay-reuse quantiles, reward-phase critic residuals, and gradient alignment. These have passed temporary synthetic export checks; no confirmatory figure is populated with synthetic results. The table below preserves the broader study plan.
 
 | Planned figure | Scientific question | Evidence and presentation |
 |---|---|---|
@@ -193,7 +193,15 @@ Total measured work was **1,200,000 training transitions, 90,000 evaluation tran
 
 The two execution invocations took **20.73 minutes** combined. Individual recorded run times ranged from 49.7 to 130.8 seconds; peak process memory was at most 680.7 MiB. Summed per-run wall time was 36.90 minutes because concurrent runs overlap. Profiling and concurrent runs experienced different contention, so these times cannot fairly rank methods by speed. See [hardware and software](results/pilot/software-environment.json), [execution records](results/pilot/pilot_execution.json), and the [full report](results/pilot/report.md).
 
-### 6.3 Confirmatory endpoints
+### 6.3 Validation of the next-stage implementation
+
+The expanded implementation passed **55 unit and integration tests**, including exact training-trajectory equivalence with diagnostics enabled, diagnostic checkpoint restoration, protocol-integrity checks, and paired-bootstrap mathematics. Eight additional development runs used seeds 10 and 11, both replay arms, and both delays. All eight completed with zero failures and passed their artifact checks. Each used 16,000 training transitions: 10,000 warmup transitions followed by 1,500 twin-critic and 750 actor updates.
+
+These runs consumed **128,000 training and 28,800 evaluation transitions**, with 1.30 minutes recorded for the validation execution. That duration excludes the separately recorded unit-test run. Their short learning budget exercises implementation and logging; it does not establish delayed-reward learnability or test H1. Returns, including deterioration from initialization, remain visible in the [development report](results/validation/next-stage/report.md); [machine-readable validation evidence](results/validation/next-stage/checks.json) records exact counts and file hashes.
+
+The new diagnostics use independent replay samples and target-noise streams. They distinguish resident-buffer quantiles from bounded sampled-age estimates and compare source-conditioned critic residuals by reward-block phase. The [next-stage guide](docs/next-stage-guide.md) explains why these measurements help interpret learning without becoming evidence of its cause.
+
+### 6.4 Confirmatory endpoints
 
 | Endpoint | Status | Planned evidence |
 |---|---|---|
@@ -205,7 +213,7 @@ The pilot does not supply p-values, confidence intervals, or a delayed-reward co
 
 ## 7. Discussion and limitations
 
-The pilot establishes that this compact implementation learns on both tasks within the CPU budget. Its mixed method rankings motivate keeping the original comparison and all its controls. The results do not justify choosing a favorable task, changing H1, or treating increased learner-data reuse as an established cause of improvement. Before confirmatory runs, complete the richer diagnostics declared in the protocol and freeze any resulting implementation revisions.
+The pilot establishes that this compact implementation learns on both tasks within the CPU budget. Its mixed method rankings motivate keeping the original comparison and all its controls. The results do not justify choosing a favorable task, changing H1, or treating increased learner-data reuse as an established cause of improvement. The richer diagnostics and analysis are now implemented and validated. The next step is the separately initiated, frozen 40-run comparison; its outcome remains unknown.
 
 A positive H1 result would support changing replay allocation in this particular system. It would not establish that evolutionary replay is necessary: H3 and standalone TD3 address different parts of that argument. If balanced replay beats pooled replay but loses to TD3, it repairs part of a hybrid without justifying the hybrid's cost.
 
@@ -223,6 +231,9 @@ Research and implementation artifacts:
 - [Study planner](scripts/study_plan.py): dependency-free budget summary and CSV manifests. **It does not train an agent.**
 - [Inspectable implementation](erl/train.py): CPU TD3, evolutionary policy search, isolated evaluation, and resumable checkpoints.
 - [Learning guide](docs/learning-guide.md) and [lab notebook](docs/lab-notebook.md): the math, method choices, and observations behind the runs.
+- [Next-stage guide](docs/next-stage-guide.md): independent diagnostics, protocol freezing, paired inference, and missing-run handling.
+- [First-stage configuration](configs/first-stage.json), [freeze record](results/first-study/freeze.json), and [execution ledger](results/first-study/progress.md): the 40-run design and its pending execution state.
+- [Confirmatory analyzer](scripts/analyze_first.py): complete-manifest validation, whole-seed paired bootstrap, per-seed evidence, and static figures.
 - [Live status reader](scripts/status_pilot.py): displays recorded checkpoints without interacting with a learner.
 
 ```bash
@@ -231,9 +242,9 @@ python3 scripts/study_plan.py --stage first --csv /tmp/erl-first-study.csv
 python3 scripts/study_plan.py --stage full
 ```
 
-The reward wrapper, TD3 baseline, population evolution, replay interventions, and evaluation harness are implemented. The pilot precedes freezing the confirmatory protocol. The first delayed-reward study and its extension remain separate future stages.
+The reward wrapper, TD3 baseline, population evolution, replay interventions, evaluation harness, independent diagnostics, study runner, and statistical analyzer are implemented. The pilot and next-stage development checks are complete. The first delayed-reward study and its extension remain separate future executions.
 
-Before confirmatory runs, pin Python, PyTorch, Gymnasium, and MuJoCo versions; record code revision and configuration hash; freeze seeds, normalization references, endpoints, and exclusions. Preserve raw episodes, configuration, checkpoints, ancestry, replay diagnostics, elapsed time, and failures. Results must be traceable to immutable run artifacts and reproducible figure commands.
+The local freeze records the protocol, executable sources, analysis, environment, resolved seeds, normalization references, endpoints, and validation evidence with SHA-256 hashes. It is an audit trail, not independent preregistration. The runner preserves failures and permits continuation only with matching frozen inputs. Analysis withholds H1/H2 estimates until all 40 declared runs pass validation; it does not silently drop an incomplete seed.
 
 ## 9. Running and understanding the pilot
 
@@ -264,6 +275,8 @@ To reproduce the pilot in a **new** output directory:
 .venv/bin/python scripts/build_dashboard.py --root results/my-pilot
 ```
 
+These commands use the current implementation. For the exact historical pilot code and artifacts, use the `pilot-v1` tag and archived source snapshot; subsequent diagnostics development has changed the source hashes without replacing the original pilot evidence.
+
 Choose two workers only if profiling supports the memory and throughput cost. Each worker uses one computational thread. Completed matching runs are reused; incomplete or changed-source runs require explicit investigation. The analyzer requires all 24 runs and rejects missing evaluation grids or inconsistent budgets.
 
 The final two commands audit recorded evolutionary parentage and build a self-contained HTML explorer. To regenerate figures and the explorer for the supplied evidence, use the same analysis commands with `--root results/pilot`; they do not train new agents. Static scientific figures export as PNG, SVG, and PDF. Open `results/pilot/explorer.html` locally to inspect measured checkpoints, or `docs/learning-lab.html` to experiment with the equations.
@@ -280,6 +293,28 @@ Each run leaves:
 | `metadata.json` and `checkpoint_manifest.csv` | Run settings, source hashes, costs, and checkpoint identities. |
 
 Large resumable checkpoints are distributed in the [versioned pilot release](https://github.com/ReloadLightly/evolving-reinforcement-learning-agent/releases/tag/pilot-v1) and excluded from ordinary Git history; their hashes and small evidence files are retained in the repository. A successful exit means the run finished; learning is assessed separately from its evaluation curve. The [learning guide](docs/learning-guide.md) includes worked equations and a walkthrough of every phase.
+
+## 10. Inspecting and running the first confirmatory stage
+
+The study is prepared for **40 Pendulum runs: two replay methods × two reward delays × ten reserved training seeds**. Its planned cost is 8,000,000 training plus 840,000 evaluation interactions. No scientific run has started. Read the [execution ledger](results/first-study/progress.md), [freeze record](results/first-study/freeze.json), and [next-stage guide](docs/next-stage-guide.md) before initiating that separate compute commitment.
+
+Validate the frozen design and print the planned commands without starting training:
+
+```bash
+.venv/bin/python scripts/run_study.py --root results/first-study --workers 2 --dry-run
+```
+
+When deliberately starting the complete study, omit `--dry-run`. The analysis commands audit the full dataset and then produce the prespecified results:
+
+```bash
+.venv/bin/python scripts/run_study.py --root results/first-study --workers 2
+.venv/bin/python scripts/analyze_first.py --root results/first-study --validate-only
+.venv/bin/python scripts/analyze_first.py --root results/first-study
+```
+
+An incomplete study produces a completion report with inferential estimates withheld. `--max-runs N` can bound an execution invocation while retaining the entire immutable 40-run plan; it does not make a smaller completed study. An interrupted run continues from its own checkpoint only with `--resume-incomplete`. Runtime for the full 200,000-step design has not yet been measured, and the short development checks should not be presented as that measurement.
+
+The original pilot release remains the versioned record of the completed experiment. Current development commits add tested machinery for the next question; they contain no answer to that question yet.
 
 ## References
 

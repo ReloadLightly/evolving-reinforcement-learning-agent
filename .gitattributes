@@ -2,3 +2,5 @@
 results/** -text
 # Python's csv writer emits standard CRLF records; preserve and accept them.
 *.csv -text whitespace=cr-at-eol
+# Generated journals retain their final paragraph separator as recorded evidence.
+results/**/journal.md whitespace=-blank-at-eof

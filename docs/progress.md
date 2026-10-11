@@ -20,8 +20,35 @@ Work in this milestone:
 
 The [pilot-v1 release](https://github.com/ReloadLightly/evolving-reinforcement-learning-agent/releases/tag/pilot-v1) also contains all 144 actor snapshots, 24 final resumable checkpoints, and 24 console logs. Its 192 archived files were verified against SHA-256 manifests after compression.
 
-**Diagnostics milestone:** independent replay/critic diagnostics and reward-phase logging are implemented. Eighteen targeted tests passed, including exact training-trajectory equivalence with diagnostics enabled, diagnostic checkpoint restoration, and unchanged training randomness. Eight short development runs are now exercising both methods and both delays with seeds 10 and 11. The [first-stage specification](first-stage-protocol.md) fixes the scientific question and separates these checks from its 40 reserved-seed runs.
+**Diagnostics milestone:** independent replay/critic diagnostics and reward-phase logging were implemented and passed eighteen targeted tests. The expanded validation below supersedes that intermediate check count while preserving the completed pilot's original evidence.
 
-**Current status:** the pilot is available on GitHub; next-stage implementation and small development validation are in progress. No confirmatory outcome is available. The full 40-run execution is a separate compute commitment, provisionally around 2–3 hours on the measured CPU; its actual runtime has not been measured.
+## 12 October 2026 — Next-stage implementation validated; scientific runs pending
+
+**Completed:** the unified suite passed **55 tests**, and **eight development runs completed with zero failures**. Those runs cover pooled/balanced replay, delays 1/20, and development seeds 10/11. They used 128,000 training and 28,800 evaluation transitions in total; their execution took 1.30 minutes, excluding the separately recorded test suite. The [validation report](../results/validation/next-stage/report.md), [checks and hashes](../results/validation/next-stage/checks.json), and [test report](../results/validation/next-stage/test-suite.json) preserve the evidence.
+
+Each short run retained the 10,000-step warmup, then trained for only 6,000 additional transitions. Some final returns deteriorated; all remain visible. These checks validate execution, diagnostics, budgets, and replay/evaluation isolation. They do not establish delayed-reward performance or answer H1.
+
+The next-stage implementation now includes:
+
+- Independent replay-age/reuse and critic diagnostics, reward-block phases, and gradient alignment.
+- An immutable protocol/source/configuration/calibration/seed snapshot with strict identity checks.
+- A bounded runner that retains failures, distinguishes pending/running/completed/interrupted states, and resumes the same seed from its own checkpoint.
+- Complete-manifest analysis with 10,000 jointly paired bootstrap resamples, per-seed results, and ten figure families. Missing or invalid runs prevent primary inference.
+
+The [next-stage learning guide](next-stage-guide.md) explains each addition. The [freeze record](../results/first-study/freeze.json) and [execution ledger](../results/first-study/progress.md) are the audit artifacts for the planned study. Inspect its commands without launching agents:
+
+```bash
+.venv/bin/python scripts/run_study.py --root results/first-study --workers 2 --dry-run
+```
+
+**Current status:** next-stage code and development validation are complete; **all 40 confirmatory runs remain pending**. The full study is a separate compute commitment. The following commands document deliberate execution and subsequent analysis; recording them here does not mean they have run:
+
+```bash
+.venv/bin/python scripts/run_study.py --root results/first-study --workers 2
+.venv/bin/python scripts/analyze_first.py --root results/first-study --validate-only
+.venv/bin/python scripts/analyze_first.py --root results/first-study
+```
+
+The 40-run design requires 8 million training plus 840,000 evaluation interactions. Its actual runtime has not been measured. The original [pilot-v1 release](https://github.com/ReloadLightly/evolving-reinforcement-learning-agent/releases/tag/pilot-v1) remains the versioned completed experiment; current commits add validated machinery without rewriting that evidence. Coherent milestones continue to be published as work advances.
 
 The [lab notebook](lab-notebook.md) contains detailed observations and decisions. Future entries here will link verified commits and result artifacts, and distinguish development checks from scientific results.

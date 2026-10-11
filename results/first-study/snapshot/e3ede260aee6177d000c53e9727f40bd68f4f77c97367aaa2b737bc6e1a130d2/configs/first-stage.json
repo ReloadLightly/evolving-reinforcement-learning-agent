@@ -1,0 +1,61 @@
+{
+  "study_id": "erl_cpu_delay_replay_v1",
+  "stage": "first",
+  "protocol_version": "first-stage-v1",
+  "purpose": "confirmatory",
+  "task": "Pendulum-v1",
+  "episode_horizon": 200,
+  "arms": ["erl_pooled", "erl_balanced"],
+  "reward_delays": [1, 20],
+  "seeds": [100, 101, 102, 103, 104, 105, 106, 107, 108, 109],
+  "training": {
+    "total_transitions": 200000,
+    "warmup_transitions": 10000,
+    "hidden_sizes": [64, 64],
+    "batch_size": 128,
+    "replay_capacity": 100000,
+    "critic_updates_per_transition": 0.25,
+    "policy_delay": 2,
+    "learning_rate": 0.0003,
+    "gamma": 0.99,
+    "tau": 0.005,
+    "exploration_noise": 0.1,
+    "target_noise": 0.2,
+    "target_noise_clip": 0.5
+  },
+  "population": {
+    "size": 4,
+    "elite_count": 1,
+    "tournament_size": 2,
+    "tournament_with_replacement": true,
+    "mutation_probability": 0.1,
+    "mutation_sigma": 0.02,
+    "injection_interval_post_warmup": 5000,
+    "injection_slot": 3
+  },
+  "evaluation": {
+    "interval": 10000,
+    "episodes": 5,
+    "include_initial": true,
+    "policy": "learner",
+    "reward": "native"
+  },
+  "diagnostics": "full",
+  "analysis": {
+    "analysis_seed": 20261012,
+    "bootstrap_resamples": 10000,
+    "practical_effect_threshold": 0.05,
+    "primary_delay": 20,
+    "primary_outcome": "paired balanced-minus-pooled normalized native-return AUC",
+    "secondary_outcome": "delay-20 minus delay-1 paired AUC contrast",
+    "bootstrap_unit": "whole training-seed block, preserving both arms and both delays",
+    "interval_percentiles": [2.5, 97.5],
+    "normalization": "independent pilot calibration mean to theoretical upper bound zero",
+    "missing_data": "No primary inference until all 40 declared runs pass validation; retain failures."
+  },
+  "execution": {
+    "device": "cpu",
+    "threads_per_run": 1,
+    "maximum_workers": 2
+  }
+}

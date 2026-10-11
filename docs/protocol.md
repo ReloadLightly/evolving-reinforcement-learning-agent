@@ -1,6 +1,6 @@
 # Experimental protocol: replay provenance under delayed rewards
 
-**Status: CPU pilot complete; confirmatory protocol remains prospective.** On 12 October 2026, all 24 immediate-reward pilot runs completed with zero failures. The implementation passed 27 unit/integration tests; the completed dataset passed the analysis budget/grid/hash checks and the recorded-lineage audit. This does not test H1. The [README](../README.md) carries the manuscript; the [pilot report](../results/pilot/report.md) contains measured results. The scientific contribution remains a controlled comparison on a small task suite, not a claim of a new replay mechanism or state-of-the-art performance.
+**Status: CPU pilot complete; confirmatory outcomes remain prospective.** On 12 October 2026, all 24 immediate-reward pilot runs completed with zero failures. The pilot implementation passed 27 unit/integration tests; the completed dataset passed the analysis budget/grid/hash checks and the recorded-lineage audit. This does not test H1. The [README](../README.md) carries the manuscript; the [pilot report](../results/pilot/report.md) contains measured results. The [first-stage specification](first-stage-protocol.md) fixes the next experiment, and its freeze tool records the final executable bundle before reserved seeds run. The scientific contribution remains a controlled comparison on a small task suite, not a claim of a new replay mechanism or state-of-the-art performance.
 
 ## Pilot implementation record and declared differences
 
@@ -343,7 +343,7 @@ Use consistent colors for algorithms across panels, accessible line styles, and 
 
 ## 10. Minimal reproducibility artifacts
 
-The pilot now emits per-run metadata, training/evaluation tables, diagnostics, lineage records, educational logs, and resumable checkpoints. Calibration, source snapshots, and the planned pilot manifest are also recorded. Full-pilot summaries and figures have now been generated after all 24 runs passed analysis checks. The following table states the reproducibility requirements for the eventual confirmatory results paper; a frozen confirmatory protocol and confirmatory outcomes do not yet exist:
+The pilot now emits per-run metadata, training/evaluation tables, diagnostics, lineage records, educational logs, and resumable checkpoints. Calibration, source snapshots, and the planned pilot manifest are also recorded. Full-pilot summaries and figures have now been generated after all 24 runs passed analysis checks. The following table states the reproducibility requirements for the eventual confirmatory results paper. The first-stage freeze tool seals these inputs before execution; confirmatory outcomes remain unavailable until the corresponding runs finish:
 
 | Artifact | Required contents |
 |---|---|
