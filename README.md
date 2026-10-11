@@ -199,6 +199,8 @@ The expanded implementation passed **55 unit and integration tests**, including 
 
 These runs consumed **128,000 training and 28,800 evaluation transitions**, with 1.30 minutes recorded for the validation execution. That duration excludes the separately recorded unit-test run. Their short learning budget exercises implementation and logging; it does not establish delayed-reward learnability or test H1. Returns, including deterioration from initialization, remain visible in the [development report](results/validation/next-stage/report.md); [machine-readable validation evidence](results/validation/next-stage/checks.json) records exact counts and file hashes.
 
+Their 72 actor snapshots, eight final checkpoints, and eight console logs are preserved in the [checksummed `next-stage-v1` release](https://github.com/ReloadLightly/evolving-reinforcement-learning-agent/releases/tag/next-stage-v1), together with the versioned implementation and frozen study plan.
+
 The new diagnostics use independent replay samples and target-noise streams. They distinguish resident-buffer quantiles from bounded sampled-age estimates and compare source-conditioned critic residuals by reward-block phase. The [next-stage guide](docs/next-stage-guide.md) explains why these measurements help interpret learning without becoming evidence of its cause.
 
 ### 6.4 Confirmatory endpoints
