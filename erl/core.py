@@ -194,6 +194,9 @@ class ReplayBuffer:
             "episodes": np.zeros(capacity, dtype=np.int64),
             "generations": np.zeros(capacity, dtype=np.int64),
             "warmup": np.zeros(capacity, dtype=np.bool_),
+            # Phase is diagnostic metadata only; zero denotes an unspecified
+            # phase for callers predating the delayed-reward diagnostics.
+            "reward_phases": np.zeros(capacity, dtype=np.int32),
         }
         self.reuse_counts = np.zeros(capacity, dtype=np.int64)
         self._pools = np.zeros((2, capacity), dtype=np.int64)
@@ -218,6 +221,7 @@ class ReplayBuffer:
         self, obs: np.ndarray, action: np.ndarray, reward: float,
         next_obs: np.ndarray, terminated: bool, truncated: bool,
         source: str | int, step: int, episode: int, generation: int, warmup: bool,
+        *, reward_phase: int = 0,
     ) -> None:
         source = {"learner": 0, "rl": 0, "ea": 1}.get(source, source)
         if source not in (0, 1):
@@ -239,7 +243,8 @@ class ReplayBuffer:
         for key, value in (("obs", obs), ("actions", action), ("rewards", reward),
                            ("next_obs", next_obs), ("terminated", terminated), ("truncated", truncated),
                            ("sources", source), ("steps", step), ("episodes", episode),
-                           ("generations", generation), ("warmup", warmup)):
+                           ("generations", generation), ("warmup", warmup),
+                           ("reward_phases", reward_phase)):
             self.data[key][index] = value
         self.reuse_counts[index] = 0
         self.cursor = (index + 1) % self.capacity
@@ -254,13 +259,15 @@ class ReplayBuffer:
             raise ValueError("A positive batch size and nonempty replay are required")
         if mode == "pooled":
             indices = rng.integers(self.size, size=batch_size)
-        elif mode in ("balanced", "learner"):
-            if self._counts[0] == 0 or (mode == "balanced" and self._counts[1] == 0):
+        elif mode in ("balanced", "learner", "ea"):
+            required = (0, 1) if mode == "balanced" else (1,) if mode == "ea" else (0,)
+            if any(self._counts[source] == 0 for source in required):
                 raise ValueError("Required replay source is empty; no fallback is allowed")
             if mode == "balanced" and batch_size % 2:
                 raise ValueError("Balanced batches require an even batch size")
             learner_count = batch_size // 2 if mode == "balanced" else batch_size
-            indices = self._pools[0, rng.integers(self._counts[0], size=learner_count)]
+            first_source = 1 if mode == "ea" else 0
+            indices = self._pools[first_source, rng.integers(self._counts[first_source], size=learner_count)]
             if mode == "balanced":
                 ea_indices = self._pools[1, rng.integers(self._counts[1], size=batch_size - learner_count)]
                 indices = np.concatenate((indices, ea_indices))
@@ -279,7 +286,7 @@ class ReplayBuffer:
     def metadata(self, current_step: int | None = None) -> dict[str, np.ndarray]:
         """Copy resident provenance for diagnostics without sampling or mutation."""
         result = {key: self.data[key][:self.size].copy() for key in
-                  ("sources", "steps", "episodes", "generations", "warmup")}
+                  ("sources", "steps", "episodes", "generations", "warmup", "reward_phases")}
         result["ages"] = (self.latest_step if current_step is None else current_step) - result["steps"]
         result["reuse_counts"] = self.reuse_counts[:self.size].copy()
         return result

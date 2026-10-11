@@ -5,6 +5,8 @@
 
 Follow the [research progress log](docs/progress.md) for published milestones, the current stage, and its next checks.
 
+The complete pilot's trained checkpoints and console logs are available in the [versioned `pilot-v1` release](https://github.com/ReloadLightly/evolving-reinforcement-learning-agent/releases/tag/pilot-v1), with SHA-256 checksums and restore instructions. The [first-stage protocol](docs/first-stage-protocol.md) specifies the next bounded experiment; its implementation is undergoing development validation.
+
 > **Status:** all 24 CPU pilot runs completed with zero failures and passed artifact checks. Every learner improved from initialization. The pilot uses immediate rewards and three training seeds per condition; the delayed-reward hypotheses remain untested. This README reports measured pilot results alongside the prospective confirmatory protocol.
 
 **Learn alongside the agent:** inspect the [pilot results](results/pilot/report.md) and [each run explained](results/pilot/run-guide.md), open the [interactive results explorer](results/pilot/explorer.html), or start with the [learning guide](docs/learning-guide.md), explore the math in the [interactive learning lab](docs/learning-lab.html), follow the [lab notebook](docs/lab-notebook.md), and inspect each run's `journal.md` under `results/pilot/`. Open the HTML file locally in a browser; it needs no server or network connection. Every checkpoint separates **OBSERVE → EXPLAIN → CHECK → NEXT** so measured facts, their interpretation, and the next action remain distinct.
@@ -277,7 +279,7 @@ Each run leaves:
 | `lineage.jsonl` | Which policies were retained, mutated, or replaced by a learner injection. |
 | `metadata.json` and `checkpoint_manifest.csv` | Run settings, source hashes, costs, and checkpoint identities. |
 
-Large resumable checkpoints remain local and are ignored by Git; their hashes and small evidence files are retained. A successful exit means the run finished; learning is assessed separately from its evaluation curve. The [learning guide](docs/learning-guide.md) includes worked equations and a walkthrough of every phase.
+Large resumable checkpoints are distributed in the [versioned pilot release](https://github.com/ReloadLightly/evolving-reinforcement-learning-agent/releases/tag/pilot-v1) and excluded from ordinary Git history; their hashes and small evidence files are retained in the repository. A successful exit means the run finished; learning is assessed separately from its evaluation curve. The [learning guide](docs/learning-guide.md) includes worked equations and a walkthrough of every phase.
 
 ## References
 

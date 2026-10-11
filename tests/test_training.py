@@ -31,7 +31,8 @@ mode, output, total = sys.argv[1], sys.argv[2], int(sys.argv[3])
 task, warmup = sys.argv[4], int(sys.argv[5])
 args = SimpleNamespace(task=task, arm="erl_balanced", seed=73,
     delay=20, steps=total, warmup=warmup, eval_every=warmup, eval_episodes=2,
-    out=output, resume=mode == "resume")
+    out=output, resume=mode == "resume", diagnostics=sys.argv[6],
+    purpose="validation", protocol_sha256=sys.argv[7])
 experiment = Experiment(args)
 
 if mode == "interrupted":
@@ -68,9 +69,11 @@ else:
 
 
 class TrainingIntegrationTests(unittest.TestCase):
-    def run_subprocess(self, mode, directory, steps=2000, task="Pendulum-v1", warmup=1000):
+    def run_subprocess(self, mode, directory, steps=2000, task="Pendulum-v1", warmup=1000,
+                       diagnostics="full", protocol_sha256="a" * 64):
         completed = subprocess.run(
-            [sys.executable, "-c", RUNNER, mode, str(directory), str(steps), task, str(warmup)],
+            [sys.executable, "-c", RUNNER, mode, str(directory), str(steps), task, str(warmup),
+             diagnostics, protocol_sha256],
             cwd=ROOT, capture_output=True, text=True, timeout=120,
         )
         self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
@@ -107,6 +110,16 @@ class TrainingIntegrationTests(unittest.TestCase):
             np.testing.assert_array_equal(replay["counts"], [400, 1600])
             self.assertEqual(replay["total_inserted"], 2000)
             self.assertEqual(state["update_credit"], 0.0)
+            self.assertEqual(metadata["diagnostics"], "full")
+            self.assertEqual(metadata["purpose"], "validation")
+            self.assertEqual(metadata["protocol_sha256"], "a" * 64)
+            phases = replay["data"]["reward_phases"][:2000]
+            np.testing.assert_array_equal(phases, np.arange(2000) % 20 + 1)
+            with (out / "diagnostic_replay.csv").open() as handle:
+                diagnostic_rows = list(csv.DictReader(handle))
+            self.assertEqual(len(diagnostic_rows), 3 * 4)
+            self.assertEqual(sum(int(row["n"]) for row in diagnostic_rows
+                                 if int(row["step"]) == 2000 and row["population"] == "diagnostic_sample"), 128)
             # Pending rewards emit every 20th transition; 200-step episodes have
             # no extra partial block. Native rewards must never leak into replay.
             rewards = replay["data"]["rewards"][:2000].reshape(-1)
@@ -140,6 +153,10 @@ class TrainingIntegrationTests(unittest.TestCase):
             self.assertEqual([float(row["update_credit"]) for row in generations], [0.0, 0.5, 0.0])
             state = torch.load(out / "checkpoints/latest.pt", weights_only=False)
             rewards = state["replay"]["data"]["rewards"][:750].reshape(-1)
+            phases = state["replay"]["data"]["reward_phases"][:750]
+            np.testing.assert_array_equal(phases, (np.arange(750) % 50) % 20 + 1)
+            self.assertTrue(np.all(phases[np.arange(750) % 50 == 49] == 10),
+                            "Final partial-block phase is ten, not twenty or zero")
             # Reacher's 50-step horizon ends with a ten-step partial block.
             emitted = np.isin(np.arange(750) % 50, [19, 39, 49])
             self.assertTrue(np.all(rewards[~emitted] == 0.0))
@@ -182,6 +199,7 @@ class TrainingIntegrationTests(unittest.TestCase):
             first = torch.load(baseline / "checkpoints/latest.pt", weights_only=False)
             second = torch.load(resumed / "checkpoints/latest.pt", weights_only=False)
             for key in ("agent", "replay", "population", "lineages", "rngs", "target_generator",
+                        "diagnostic_rng", "diagnostic_target_generator",
                         "steps", "eval_steps", "generation", "episode", "update_credit", "last_diagnostics"):
                 self.assert_nested_equal(first[key], second[key], key)
             self.assertEqual((baseline / "evaluation.csv").read_text(),
@@ -190,8 +208,28 @@ class TrainingIntegrationTests(unittest.TestCase):
                              (resumed / "episodes.csv").read_text())
             self.assertEqual((baseline / "lineage.jsonl").read_text(),
                              (resumed / "lineage.jsonl").read_text())
+            for filename in ("diagnostics.csv", "diagnostic_replay.csv", "diagnostic_critic.csv"):
+                self.assertEqual((baseline / filename).read_text(), (resumed / filename).read_text(), filename)
             self.assertNotIn(marker, (resumed / "events.jsonl").read_text())
             self.assertNotIn(marker, (resumed / "journal.md").read_text())
+            rejected = subprocess.run(
+                [sys.executable, "-c", RUNNER, "resume", str(resumed), "3000", "Pendulum-v1", "1000", "full", "b" * 64],
+                cwd=ROOT, capture_output=True, text=True, timeout=120)
+            self.assertNotEqual(rejected.returncode, 0)
+            self.assertIn("Resume configuration/source mismatch: protocol_sha256", rejected.stderr)
+
+    def test_enabling_diagnostics_does_not_change_the_learned_trajectory(self):
+        with tempfile.TemporaryDirectory(prefix="erl-diagnostic-ablation-") as temporary:
+            baseline, detailed = Path(temporary) / "basic", Path(temporary) / "full"
+            self.run_subprocess("normal", baseline, diagnostics="basic")
+            self.run_subprocess("normal", detailed, diagnostics="full")
+            basic_state = torch.load(baseline / "checkpoints/latest.pt", weights_only=False)
+            full_state = torch.load(detailed / "checkpoints/latest.pt", weights_only=False)
+            for key in ("agent", "replay", "population", "lineages", "rngs", "target_generator", "last_diagnostics"):
+                self.assert_nested_equal(basic_state[key], full_state[key], key)
+            self.assertEqual((baseline / "evaluation.csv").read_bytes(), (detailed / "evaluation.csv").read_bytes())
+            self.assertEqual((baseline / "episodes.csv").read_bytes(), (detailed / "episodes.csv").read_bytes())
+            self.assertFalse((baseline / "diagnostic_critic.csv").exists())
 
 
 if __name__ == "__main__":

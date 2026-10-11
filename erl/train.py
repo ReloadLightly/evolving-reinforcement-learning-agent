@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import platform
 import resource
+import re
 import time
 from datetime import datetime, timezone
 
@@ -17,6 +18,7 @@ import torch
 from .core import Actor, ReplayBuffer, TD3
 from .envs import make_env, stable_seed
 from .evolution import evolve_population
+from .diagnostics import AGE_BIN_EDGES, QUANTILES, SAMPLES_PER_SOURCE, collect_diagnostics
 
 
 ARMS = {"td3": "learner", "erl_pooled": "pooled",
@@ -67,6 +69,18 @@ class Experiment:
         torch.set_num_interop_threads(1)
         torch.use_deterministic_algorithms(True)
         self.args = args
+        self.purpose = getattr(args, "purpose", "pilot")
+        self.diagnostic_level = getattr(args, "diagnostics", "basic")
+        protocol_sha256 = getattr(args, "protocol_sha256", None)
+        if self.purpose not in ("pilot", "validation", "confirmatory"):
+            raise ValueError("Unknown experiment purpose")
+        if self.diagnostic_level not in ("basic", "full"):
+            raise ValueError("Unknown diagnostic level")
+        if protocol_sha256 is not None and not re.fullmatch(r"[0-9a-fA-F]{64}", protocol_sha256):
+            raise ValueError("Protocol SHA-256 must be exactly 64 hexadecimal digits")
+        if self.purpose == "confirmatory" and protocol_sha256 is None:
+            raise ValueError("Confirmatory runs require a frozen protocol SHA-256")
+        protocol_sha256 = protocol_sha256.lower() if protocol_sha256 else None
         if args.eval_episodes < 2:
             raise ValueError("At least two evaluation episodes are required for the reported episode SD")
         self.out = Path(args.out)
@@ -98,6 +112,10 @@ class Experiment:
                      for name in ("warmup", "exploration", "replay", "selection", "mutation")}
         self.target_generator = torch.Generator(device="cpu")
         self.target_generator.manual_seed(stable_seed(args.task, args.seed, "target_noise"))
+        self.diagnostic_rng = np.random.default_rng(stable_seed(args.task, args.seed, "diagnostic_sampling"))
+        self.diagnostic_target_generator = torch.Generator(device="cpu")
+        self.diagnostic_target_generator.manual_seed(stable_seed(args.task, args.seed, "diagnostic_target_noise"))
+        self.diagnostic_seconds = 0.0
         self.steps = self.eval_steps = self.generation = self.episode = 0
         self.update_credit = 0.0
         self.elapsed_before = 0.0
@@ -113,7 +131,17 @@ class Experiment:
                 raise ValueError("Behavioral probe hash mismatch")
             self.probe = torch.as_tensor(np.load(probe_path), dtype=torch.float32)
         self.metadata = {
-            "status": "running", "purpose": "development pilot; not confirmatory evidence",
+            "status": "running", "purpose": self.purpose,
+            "diagnostics": self.diagnostic_level, "protocol_sha256": protocol_sha256,
+            "diagnostic_configuration": {
+                "schema_version": 1, "samples_per_source": SAMPLES_PER_SOURCE,
+                "replay_diagnostic_sample_size": SAMPLES_PER_SOURCE,
+                "sample_age_scope": "independent current-buffer diagnostic draws; not historical training draws",
+                "quantile_percentiles": list(QUANTILES), "quantile_method": "linear",
+                "age_bin_edges": [int(value) if np.isfinite(value) else "infinity" for value in AGE_BIN_EDGES],
+                "reward_phase_zero": "aggregate over all phases; actual phases begin at one",
+                "gradient_definition": "cosine of joint twin-critic MSE gradients on independent 128-draw source batches",
+            },
             "task": args.task, "arm": args.arm, "seed": args.seed, "reward_delay": args.delay,
             "training_budget": args.steps, "warmup": args.warmup,
             "evaluation_interval": args.eval_every, "evaluation_episodes": args.eval_episodes,
@@ -212,6 +240,7 @@ class Experiment:
 
     @torch.no_grad()
     def diagnostics(self, sampled_fraction):
+        started = time.perf_counter()
         disagreement = None
         if self.probe is not None and self.args.arm != "td3":
             actions = torch.stack([p(self.probe) for p in self.population])
@@ -228,6 +257,13 @@ class Experiment:
             row[f"td_abs_{label}"] = self.last_diagnostics.get(f"td_abs_{label}")
         row["q_disagreement"] = self.last_diagnostics.get("q_disagreement")
         append_csv(self.out / "diagnostics.csv", [row])
+        if self.diagnostic_level == "full":
+            replay, critic = collect_diagnostics(
+                self.agent, self.replay, self.steps, self.args.delay, ARMS[self.args.arm],
+                self.diagnostic_rng, self.diagnostic_target_generator)
+            append_csv(self.out / "diagnostic_replay.csv", replay)
+            append_csv(self.out / "diagnostic_critic.csv", critic)
+        self.diagnostic_seconds += time.perf_counter() - started
 
     def save(self):
         actor_path = self.checkpoints / f"actor_{self.steps:07d}.pt"
@@ -237,6 +273,9 @@ class Experiment:
             "population": [p.state_dict() for p in self.population],
             "lineages": self.lineages, "rngs": {k: v.bit_generator.state for k, v in self.rngs.items()},
             "target_generator": self.target_generator.get_state(),
+            "diagnostic_rng": self.diagnostic_rng.bit_generator.state,
+            "diagnostic_target_generator": self.diagnostic_target_generator.get_state(),
+            "diagnostic_seconds": self.diagnostic_seconds,
             "steps": self.steps, "eval_steps": self.eval_steps, "generation": self.generation,
             "episode": self.episode, "update_credit": self.update_credit,
             "elapsed_s": self.elapsed(), "last_diagnostics": self.last_diagnostics,
@@ -255,7 +294,8 @@ class Experiment:
         state = torch.load(self.checkpoints / "latest.pt", map_location="cpu", weights_only=False)
         prior = state["metadata"]
         for key in ("task", "arm", "seed", "reward_delay", "training_budget", "warmup",
-                    "evaluation_interval", "evaluation_episodes", "source_sha256", "calibration_sha256"):
+                    "evaluation_interval", "evaluation_episodes", "source_sha256", "calibration_sha256",
+                    "purpose", "diagnostics", "protocol_sha256", "diagnostic_configuration"):
             if prior[key] != self.metadata[key]:
                 raise ValueError(f"Resume configuration/source mismatch: {key}")
         self.agent.load_state_dict(state["agent"])
@@ -266,6 +306,9 @@ class Experiment:
         for key, rng in self.rngs.items():
             rng.bit_generator.state = state["rngs"][key]
         self.target_generator.set_state(state["target_generator"])
+        self.diagnostic_rng.bit_generator.state = state["diagnostic_rng"]
+        self.diagnostic_target_generator.set_state(state["diagnostic_target_generator"])
+        self.diagnostic_seconds = state["diagnostic_seconds"]
         for key in ("steps", "eval_steps", "generation", "episode", "update_credit", "last_diagnostics"):
             setattr(self, key, state[key])
         self.elapsed_before = state["elapsed_s"]
@@ -275,7 +318,8 @@ class Experiment:
         # Remove rows written after the last durable checkpoint before replaying lost work.
         for name, field in (("evaluation.csv", "step"), ("generations.csv", "step"),
                             ("episodes.csv", "step"), ("checkpoint_manifest.csv", "step"),
-                            ("diagnostics.csv", "step")):
+                            ("diagnostics.csv", "step"), ("diagnostic_replay.csv", "step"),
+                            ("diagnostic_critic.csv", "step")):
             path = self.out / name
             if path.exists():
                 with path.open() as handle:
@@ -336,7 +380,8 @@ class Experiment:
                 self.steps += 1
                 length += 1
                 self.replay.add(obs, normalized, reward, new_obs, terminated, truncated,
-                                source, self.steps, self.episode, self.generation, warmup)
+                                source, self.steps, self.episode, self.generation, warmup,
+                                reward_phase=int(info["reward_block_phase"]))
                 emitted_total += float(reward)
                 native_total += float(info["native_reward"])
                 obs = new_obs
@@ -420,6 +465,7 @@ class Experiment:
                                  total_training_transitions=self.steps, total_evaluation_transitions=self.eval_steps,
                                  critic_updates=self.agent.updates, actor_updates=self.agent.updates // 2,
                                  sampled_transitions=totals, elapsed_s=self.elapsed(),
+                                 total_diagnostic_seconds=self.diagnostic_seconds,
                                  peak_rss_mib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024,
                                  checkpoint_bytes=sum(p.stat().st_size for p in self.checkpoints.glob("*")))
             write_json(self.out / "metadata.json", self.metadata)
@@ -427,7 +473,9 @@ class Experiment:
                        "This run is one noisy observation. Comparing several seeds helps separate a method's pattern from luck.",
                        f"Budget verified: {expected:,} twin-critic steps, {expected // 2:,} actor steps; "
                        f"{self.eval_steps:,} separately counted evaluation steps.",
-                       "Compare matched pilot runs and assess learnability and CPU cost; do not test H1 on this pilot.")
+                       {"pilot": "Compare matched pilot runs and assess learnability and CPU cost; do not test H1 on this pilot.",
+                        "validation": "Audit diagnostic isolation, delayed feedback, and the complete validation manifest before freezing a study.",
+                        "confirmatory": "Analyze the complete frozen run manifest and preserve every prespecified seed, outcome, and comparison."}[self.purpose])
         except Exception as error:
             self.metadata.update(status="failed", error_type=type(error).__name__, error=str(error),
                                  total_training_transitions=self.steps, elapsed_s=self.elapsed())
@@ -451,6 +499,10 @@ def main():
     parser.add_argument("--out", required=True)
     parser.add_argument("--calibration", help="Independent calibration JSON with fixed probe observations")
     parser.add_argument("--resume", action="store_true")
+    parser.add_argument("--diagnostics", choices=("basic", "full"), default="basic",
+                        help="Full adds independent replay-age, reward-phase critic, and gradient-alignment diagnostics")
+    parser.add_argument("--purpose", choices=("pilot", "validation", "confirmatory"), default="pilot")
+    parser.add_argument("--protocol-sha256", help="Frozen protocol identity; required for confirmatory runs and checked on resume")
     Experiment(parser.parse_args()).run()
 
 
