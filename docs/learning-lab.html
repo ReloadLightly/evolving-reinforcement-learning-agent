@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>ERL learning lab — three worked calculations</title>
+  <style>
+    :root { color-scheme: light; --paper:#f4f6f8; --ink:#182330; --muted:#46596a; --card:#fff; --edge:#ccd6dd; --blue:#0072b2; --orange:#b96000; --focus:#6b37b4; --pale:#eaf3f8; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font:17px/1.6 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:1160px; margin:auto; padding:clamp(20px,4vw,56px); }
+    h1,h2,h3 { line-height:1.2; letter-spacing:-.025em; }
+    h1 { font-size:clamp(2rem,5vw,3.35rem); max-width:850px; margin:.35em 0; }
+    h2 { font-size:clamp(1.45rem,3vw,1.9rem); margin:0 0 12px; }
+    h3 { font-size:1.08rem; margin:0 0 8px; }
+    p { margin:.7em 0; }
+    a { color:var(--blue); text-underline-offset:.18em; }
+    .eyebrow { font-size:.78rem; font-weight:750; letter-spacing:.13em; text-transform:uppercase; color:var(--muted); }
+    .lede { max-width:800px; color:var(--muted); font-size:1.13rem; }
+    .notice { padding:14px 18px; border-left:4px solid var(--blue); background:var(--pale); margin:24px 0 28px; }
+    nav { display:flex; flex-wrap:wrap; gap:10px 24px; margin:22px 0 28px; }
+    section { border:1px solid var(--edge); border-radius:16px; background:var(--card); padding:clamp(18px,3vw,32px); margin:22px 0; scroll-margin-top:16px; }
+    .intro { max-width:850px; color:var(--muted); }
+    .columns { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:32px; margin:26px 0 8px; }
+    label { display:block; font-weight:650; }
+    .label-row { display:flex; justify-content:space-between; gap:10px; }
+    output,.mono { font-variant-numeric:tabular-nums; }
+    .label-row output { font-weight:700; color:var(--blue); }
+    input[type="range"] { width:100%; height:34px; margin:5px 0 10px; accent-color:var(--blue); cursor:pointer; }
+    input[type="radio"] { accent-color:var(--blue); margin:0 9px 0 0; width:18px; height:18px; flex-shrink:0; }
+    fieldset { border:1px solid var(--edge); border-radius:9px; margin:15px 0 0; padding:12px 16px; }
+    legend { font-weight:650; padding:0 5px; }
+    fieldset label { display:flex; align-items:center; font-size:.94rem; font-weight:450; min-height:36px; cursor:pointer; }
+    .answer { background:var(--paper); border-radius:12px; padding:22px; align-self:start; }
+    .number { display:block; font-size:clamp(2.5rem,6vw,3.5rem); font-weight:750; line-height:1.15; margin:8px 0 10px; font-variant-numeric:tabular-nums; }
+    .equation { font-family:ui-monospace,SFMono-Regular,Consolas,monospace; font-size:.94rem; overflow-wrap:anywhere; }
+    .note { color:var(--muted); font-size:.9rem; }
+    .rule { border-top:1px solid var(--edge); padding-top:16px; margin-top:20px; }
+    .ruler { position:relative; height:8px; border-radius:6px; background:var(--edge); margin:25px 0 6px; }
+    .ruler::after { content:""; position:absolute; height:18px; top:-5px; left:80%; width:2px; background:var(--muted); }
+    .marker { position:absolute; top:-5px; left:68.1%; width:18px; height:18px; border:3px solid var(--card); background:var(--blue); border-radius:50%; transform:translateX(-50%); z-index:1; }
+    .ticks { display:flex; justify-content:space-between; font-size:.75rem; color:var(--muted); }
+    .ticks span:nth-child(2) { margin-left:17%; }
+    .ticks span:nth-child(3) { margin-left:18%; }
+    .key { display:flex; flex-wrap:wrap; gap:8px 20px; margin:12px 0; font-size:.9rem; }
+    .swatch { display:inline-block; width:13px; height:13px; border-radius:3px; margin-right:6px; vertical-align:baseline; }
+    .ea { background:var(--blue); }
+    .rl { background:var(--orange); }
+    .cells { display:grid; grid-template-columns:repeat(16,minmax(0,1fr)); gap:4px; margin:20px 0; }
+    .cell { aspect-ratio:1; min-width:0; border-radius:3px; }
+    .cell.rl { background:repeating-linear-gradient(135deg,var(--orange),var(--orange) 3px,#f5c99a 3px,#f5c99a 5px); }
+    .buttons { display:flex; flex-wrap:wrap; gap:8px; }
+    button { font:inherit; font-size:.9rem; color:var(--ink); border:1px solid var(--edge); border-radius:7px; padding:7px 12px; background:var(--card); cursor:pointer; }
+    button:hover { background:var(--pale); }
+    :focus-visible { outline:3px solid var(--focus); outline-offset:4px; }
+    .stats { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .stats strong { display:block; font-size:1.8rem; font-variant-numeric:tabular-nums; line-height:1.25; }
+    .stats span { display:block; color:var(--muted); font-size:.9rem; }
+    .budget-bar { display:flex; height:24px; border-radius:6px; overflow:hidden; margin:18px 0 8px; background:var(--edge); }
+    .warmup-bar { background:var(--muted); width:20%; }
+    .learning-bar { background:var(--blue); flex:1; }
+    footer { padding:10px 0 25px; color:var(--muted); font-size:.9rem; }
+    .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+    @media(max-width:720px) { .columns { grid-template-columns:1fr; gap:18px; } body { font-size:16px; } .cells { gap:3px; } }
+    @media(prefers-color-scheme:dark) { :root { color-scheme:dark; --paper:#15202a; --ink:#eef3f6; --muted:#b6c6d2; --card:#1e2b37; --edge:#435667; --blue:#58b7ed; --orange:#ed9e43; --focus:#cdadff; --pale:#203b4c; } .cell.rl { background:repeating-linear-gradient(135deg,var(--orange),var(--orange) 3px,#82551d 3px,#82551d 5px); } }
+    @media print { body { font-size:11pt; } main { padding:0; } section { break-inside:avoid; } nav,.buttons { display:none; } .columns { grid-template-columns:1fr 1fr; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Evolutionary reinforcement learning · learning lab</div>
+    <h1>Move a slider.<br>Follow the learning calculation.</h1>
+    <p class="lede">Three small experiments with the arithmetic behind our CPU pilot: what a critic learns, which experiences it sees, and how much work the learner performs.</p>
+    <div class="notice"><strong>These are hypothetical worked calculations, not experimental results.</strong> Controls change this illustration only. They do not run training, change the protocol, or read any pilot measurements. Everything works locally, without a network connection.</div>
+    <nav aria-label="Learning lab navigation">
+      <a href="#target">1. TD3 target</a><a href="#replay">2. Replay mixture</a><a href="#budget">3. Compute budget</a><a href="learning-guide.md">Read the learning guide</a>
+    </nav>
+  </header>
+
+  <section id="target" aria-labelledby="target-heading">
+    <div class="eyebrow">01 · Learning a value estimate</div>
+    <h2 id="target-heading">What should the critic predict?</h2>
+    <p class="intro">A critic estimates future discounted reward for an observation and action. TD3 trains two critics toward a target that combines the reward just observed with the smaller of two target-critic estimates for the next step.</p>
+    <p class="equation" aria-label="y equals r plus gamma times one minus terminated times the minimum of Q one and Q two">y = r + γ × (1 − terminated) × min(Q₁′, Q₂′)</p>
+    <div class="columns">
+      <div>
+        <div class="label-row"><label for="reward">Observed reward, r</label><output id="reward-value" for="reward">−1.00</output></div>
+        <input id="reward" type="range" min="-20" max="5" step="0.25" value="-1">
+        <div class="label-row"><label for="discount">Discount factor, γ</label><output id="discount-value" for="discount">0.99</output></div>
+        <input id="discount" type="range" min="0" max="1" step="0.01" value="0.99">
+        <div class="label-row"><label for="q-one">First target critic, Q₁′</label><output id="q-one-value" for="q-one">−5.00</output></div>
+        <input id="q-one" type="range" min="-20" max="5" step="0.25" value="-5">
+        <div class="label-row"><label for="q-two">Second target critic, Q₂′</label><output id="q-two-value" for="q-two">−3.00</output></div>
+        <input id="q-two" type="range" min="-20" max="5" step="0.25" value="-3">
+        <fieldset>
+          <legend>What happened after this transition?</legend>
+          <label><input type="radio" name="boundary" value="continuing" checked>Episode continues</label>
+          <label><input type="radio" name="boundary" value="terminated">True task termination</label>
+          <label><input type="radio" name="boundary" value="truncated">Time limit reached (truncation)</label>
+        </fieldset>
+      </div>
+      <div class="answer" aria-live="polite" aria-atomic="true">
+        <h3>One learning target</h3>
+        <output class="number" id="target-value" for="reward discount q-one q-two">−5.95</output>
+        <p class="equation" id="target-equation">−1.00 + 0.99 × 1 × (−5.00) = −5.95</p>
+        <div class="ruler" aria-hidden="true"><span class="marker" id="target-marker"></span></div>
+        <div class="ticks" aria-hidden="true"><span>−40</span><span>−20</span><span>0</span><span>10</span></div>
+        <p id="boundary-explanation">The episode continues, so the target includes an estimate of future reward. This use of another estimate is called bootstrapping.</p>
+        <p class="note" id="minimum-explanation">The smaller estimate is Q₁′ = −5.00. With negative values, “smaller” means more negative.</p>
+      </div>
+    </div>
+    <p class="rule"><strong>Try it:</strong> set γ to zero, then switch to true termination. Both remove the future-value term for different reasons. Now choose a time limit: our learner still bootstraps from the final observation before the environment resets.</p>
+    <p class="note">The primes denote slowly updated target networks. In the actual algorithm, both target critics evaluate the same next action from the target actor, with clipped Gaussian smoothing noise. Each live critic minimizes squared error to y; the live actor is trained through the first live critic every second critic update. Taking the minimum helps counter overestimation; it does not reveal the true value or guarantee an accurate target. Here Q₁′ and Q₂′ are illustrative inputs.</p>
+  </section>
+
+  <section id="replay" aria-labelledby="replay-heading">
+    <div class="eyebrow">02 · Choosing what to learn from</div>
+    <h2 id="replay-heading">Same stored experience. Different minibatch.</h2>
+    <p class="intro">An ERL generation collects four population episodes and one learner episode. With equal episode lengths, 80% of new transitions come from the evolutionary population. The replay intervention changes the source mixture sampled for learning.</p>
+    <div class="columns">
+      <div>
+        <div class="label-row"><label for="alpha">EA share of this fixed-quota batch, α</label><output id="alpha-value" for="alpha">50.0%</output></div>
+        <input id="alpha" type="range" min="0" max="1" step="0.0078125" value="0.5" aria-describedby="alpha-help">
+        <p id="alpha-help" class="note">Each step changes one of the 128 sampled transitions. Sampling is with replacement, so cells can represent repeated visits to the same stored transition.</p>
+        <div class="buttons" aria-label="Fixed quota examples">
+          <button type="button" data-alpha="0.25">25% EA</button><button type="button" data-alpha="0.5">50% EA · balanced</button><button type="button" data-alpha="0.75">75% EA</button>
+        </div>
+        <div class="key"><span><span class="swatch ea" aria-hidden="true"></span>EA · solid blue</span><span><span class="swatch rl" aria-hidden="true"></span>Learner · striped orange</span></div>
+        <div class="cells" id="batch-cells" aria-hidden="true"></div>
+        <p class="note">Cells are grouped by source for readability. The implementation shuffles balanced minibatches before training.</p>
+      </div>
+      <div class="answer" aria-live="polite" aria-atomic="true">
+        <h3>128 samples, two sources</h3>
+        <div class="stats"><div><strong id="ea-count">64</strong><span>EA samples</span></div><div><strong id="learner-count">64</strong><span>Learner samples</span></div></div>
+        <p id="replay-explanation">A balanced batch contains exactly 64 EA samples and 64 learner samples.</p>
+        <p class="rule"><strong>Pooled replay is different:</strong> if 80% of resident transitions are EA, a uniformly sampled batch has <strong>102.4 EA samples in expectation</strong> and 25.6 learner samples. Every real batch has integer counts that fluctuate.</p>
+        <p class="note" id="reuse-explanation">At an 80:20 resident mix, this quota gives each learner transition 4.00× the expected sampling frequency of each EA transition.</p>
+      </div>
+    </div>
+    <p class="rule"><strong>What stays fixed:</strong> one global FIFO buffer, its capacity, and its eviction rule. Inserting a new transition into a full buffer removes the globally oldest transition regardless of source. A 50:50 sampled batch does not imply 50:50 storage.</p>
+    <p class="note">The relative per-transition sampling rate is [(1 − α) / 0.2] ÷ [α / 0.8], assuming an 80:20 resident mix. It describes expected reuse pressure, not learning quality. Real source counts and ages are logged separately. Only the 50:50 quota is the primary balanced treatment; the other slider positions are teaching examples, not additional executed experimental arms.</p>
+  </section>
+
+  <section id="budget" aria-labelledby="budget-heading">
+    <div class="eyebrow">03 · Counting the cost honestly</div>
+    <h2 id="budget-heading">Interactions are not gradient updates.</h2>
+    <p class="intro">The first 10,000 training transitions fill replay with random actions. Afterwards, the protocol grants one twin-critic update per four newly collected transitions. Every second twin-critic update also trains the actor.</p>
+    <div class="columns">
+      <div>
+        <div class="label-row"><label for="steps">Total training transitions, T</label><output id="steps-value" for="steps">50,000</output></div>
+        <input id="steps" type="range" min="10000" max="200000" step="1000" value="50000" aria-describedby="steps-help">
+        <p id="steps-help" class="note">Move in complete 1,000-transition Pendulum generations: four population episodes plus one learner episode, each 200 steps.</p>
+        <div class="buttons"><button type="button" data-steps="10000">Warmup boundary</button><button type="button" data-steps="50000">Pilot budget</button><button type="button" data-steps="200000">Proposed main budget</button></div>
+        <div class="budget-bar" aria-hidden="true"><div class="warmup-bar" id="warmup-bar"></div><div class="learning-bar"></div></div>
+        <div class="key"><span><span class="swatch" style="background:var(--muted)" aria-hidden="true"></span>10,000 warmup transitions</span><span><span class="swatch ea" aria-hidden="true"></span>Post-warmup transitions</span></div>
+        <p class="equation">C = floor(0.25 × max(T − 10,000, 0))<br>A = floor(C / 2)</p>
+        <p class="note">C counts a simultaneous update of both critics as one step. A counts actor updates. Both target critics and the target actor receive their soft updates on the delayed actor-update schedule.</p>
+      </div>
+      <div class="answer" aria-live="polite" aria-atomic="true">
+        <h3>Scheduled learning work</h3>
+        <div class="stats"><div><strong id="critic-count">10,000</strong><span>Twin-critic updates</span></div><div><strong id="actor-count">5,000</strong><span>Actor updates</span></div></div>
+        <p id="budget-explanation">40,000 post-warmup transitions × 0.25 = 10,000 twin-critic updates.</p>
+        <p class="rule"><strong id="sample-count">1,280,000</strong> replay samples are drawn at minibatch size 128. These are repeated uses of stored data, not additional simulator transitions.</p>
+        <p class="note" id="evaluation-explanation">Under the pilot evaluation schedule (every 10,000 training steps, including step zero), 6 checkpoints × 5 episodes × 200 steps add 6,000 evaluation transitions: 56,000 simulator transitions in total.</p>
+      </div>
+    </div>
+    <p class="rule"><strong>Try it:</strong> return to the warmup boundary. The buffer has experience, but the learner has made zero gradient updates. Then increase the budget: replay can be sampled many more times than the environment is stepped.</p>
+    <p class="note">The calculation applies to the declared fixed-length Pendulum schedule, with evaluation at completed 10,000-step checkpoints. Evolutionary fitness episodes already count as training interactions. Reacher has shorter episodes and uses fractional update credits across generations; the same cumulative formula still applies. Equal transition and update budgets control two costs, but wall time, simulator cost, memory, and checkpoint writes must still be measured.</p>
+  </section>
+
+  <footer><p>Continue with the <a href="learning-guide.md">learning guide</a>, inspect the <a href="protocol.md">experimental protocol</a>, or return to the <a href="../README.md">research README</a>. Open this HTML file in a browser to use the controls. No external scripts, fonts, or services are required.</p></footer>
+  <noscript><div class="notice">JavaScript is disabled. The page shows the default worked examples: TD3 target −5.95, a 64:64 replay batch, and 10,000 critic / 5,000 actor updates at 50,000 training transitions.</div></noscript>
+</main>
+<script>
+"use strict";
+
+// Kept as pure functions so the teaching arithmetic can be checked directly.
+function td3Target(reward, gamma, q1, q2, terminated) {
+  return reward + gamma * (terminated ? 0 : 1) * Math.min(q1, q2);
+}
+function replayComposition(alpha, batchSize = 128) {
+  const ea = Math.round(alpha * batchSize);
+  return {ea, learner: batchSize - ea, alpha: ea / batchSize};
+}
+function learningBudget(steps) {
+  const postWarmup = Math.max(steps - 10000, 0);
+  const critics = Math.floor(postWarmup * 0.25);
+  const checkpoints = Math.floor(steps / 10000) + 1;
+  const evaluation = checkpoints * 5 * 200;
+  return {postWarmup, critics, actors: Math.floor(critics / 2), samples: critics * 128,
+          checkpoints, evaluation, total: steps + evaluation};
+}
+
+const byId = id => document.getElementById(id);
+const number = value => Number(value).toLocaleString("en-US");
+const decimal = value => (Math.abs(value) < 0.000001 ? 0 : value).toFixed(2).replace("-", "−");
+const put = (id, value) => { byId(id).textContent = value; };
+
+function updateTarget() {
+  const reward = Number(byId("reward").value);
+  const gamma = Number(byId("discount").value);
+  const q1 = Number(byId("q-one").value);
+  const q2 = Number(byId("q-two").value);
+  const boundary = document.querySelector('input[name="boundary"]:checked').value;
+  const terminated = boundary === "terminated";
+  const smallest = Math.min(q1, q2);
+  const target = td3Target(reward, gamma, q1, q2, terminated);
+  for (const [id, value] of [["reward", reward], ["discount", gamma], ["q-one", q1], ["q-two", q2]]) {
+    put(id + "-value", decimal(value));
+    byId(id).setAttribute("aria-valuetext", decimal(value));
+  }
+  put("target-value", decimal(target));
+  put("target-equation", `${decimal(reward)} + ${decimal(gamma)} × ${terminated ? 0 : 1} × (${decimal(smallest)}) = ${decimal(target)}`);
+  byId("target-marker").style.left = ((target + 40) / 50 * 100) + "%";
+  const explanations = {
+    continuing: "The episode continues, so the target includes an estimate of future reward. This use of another estimate is called bootstrapping.",
+    terminated: "The task truly ended. The continuation mask is zero, so y equals the observed reward regardless of either next-state critic estimate.",
+    truncated: "A time limit stopped collection, but this is not a true terminal state of the continuing task. The mask remains one: bootstrap from the final observation before reset, never the reset observation."
+  };
+  put("boundary-explanation", explanations[boundary]);
+  const which = q1 === q2 ? "Both estimates are equal" : `The smaller estimate is ${q1 < q2 ? "Q₁′" : "Q₂′"}`;
+  put("minimum-explanation", `${which} = ${decimal(smallest)}. With negative values, “smaller” means more negative.`);
+}
+
+function updateReplay() {
+  const composition = replayComposition(Number(byId("alpha").value));
+  const share = (composition.alpha * 100).toFixed(1) + "%";
+  put("alpha-value", share);
+  byId("alpha").setAttribute("aria-valuetext", `${share} evolutionary, ${composition.ea} EA samples and ${composition.learner} learner samples`);
+  put("ea-count", composition.ea);
+  put("learner-count", composition.learner);
+  put("replay-explanation", composition.ea === 64
+    ? "A balanced batch contains exactly 64 EA samples and 64 learner samples."
+    : `This illustrative fixed quota contains ${composition.ea} EA samples and ${composition.learner} learner samples. It is not the primary 50:50 treatment.`);
+  let reuse;
+  if (composition.ea === 0) reuse = "Only learner transitions are sampled. EA transitions remain in the global buffer and still occupy capacity.";
+  else if (composition.learner === 0) reuse = "Only EA transitions are sampled. Learner transitions remain stored but receive no training reuse in this example.";
+  else reuse = `At an 80:20 resident mix, this quota gives each learner transition ${(4 * composition.learner / composition.ea).toFixed(2)}× the expected sampling frequency of each EA transition.`;
+  put("reuse-explanation", reuse);
+  const cells = document.createDocumentFragment();
+  for (let i = 0; i < 128; i++) {
+    const cell = document.createElement("span");
+    cell.className = "cell " + (i < composition.ea ? "ea" : "rl");
+    cells.appendChild(cell);
+  }
+  byId("batch-cells").replaceChildren(cells);
+}
+
+function updateBudget() {
+  const steps = Number(byId("steps").value);
+  const budget = learningBudget(steps);
+  put("steps-value", number(steps));
+  byId("steps").setAttribute("aria-valuetext", `${number(steps)} total training transitions`);
+  put("critic-count", number(budget.critics));
+  put("actor-count", number(budget.actors));
+  put("sample-count", number(budget.samples));
+  put("budget-explanation", `${number(budget.postWarmup)} post-warmup transitions × 0.25 = ${number(budget.critics)} twin-critic updates.`);
+  put("evaluation-explanation", `Under the pilot evaluation schedule (every 10,000 training steps, including step zero), ${budget.checkpoints} completed checkpoints × 5 episodes × 200 steps add ${number(budget.evaluation)} evaluation transitions: ${number(budget.total)} simulator transitions in total.`);
+  byId("warmup-bar").style.width = (10000 / steps * 100) + "%";
+}
+
+for (const id of ["reward", "discount", "q-one", "q-two"]) byId(id).addEventListener("input", updateTarget);
+for (const input of document.querySelectorAll('input[name="boundary"]')) input.addEventListener("change", updateTarget);
+byId("alpha").addEventListener("input", updateReplay);
+byId("steps").addEventListener("input", updateBudget);
+for (const button of document.querySelectorAll("[data-alpha]")) button.addEventListener("click", () => { byId("alpha").value = button.dataset.alpha; updateReplay(); });
+for (const button of document.querySelectorAll("[data-steps]")) button.addEventListener("click", () => { byId("steps").value = button.dataset.steps; updateBudget(); });
+updateTarget(); updateReplay(); updateBudget();
+</script>
+</body>
+</html>

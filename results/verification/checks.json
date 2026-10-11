@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "total_tests": 27,
+  "tests_by_file": {
+    "tests/test_core.py": 8,
+    "tests/test_envs.py": 8,
+    "tests/test_evolution.py": 7,
+    "tests/test_training.py": 4
+  },
+  "commands": [
+    ".venv/bin/python -m unittest discover -s tests -p test_core.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_envs.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_evolution.py -v",
+    ".venv/bin/python -m unittest discover -s tests -p test_training.py -v"
+  ],
+  "scope": "Executed during implementation before pilot; all groups passed. Core tests use synthetic data. Integration smoke runs are separate from the 24 scientific pilot runs.",
+  "checks": [
+    "reward identity and block flush",
+    "true termination versus time-limit bootstrap",
+    "global FIFO eviction and provenance sampling",
+    "TD3 target and delayed actor update",
+    "independent random streams",
+    "evaluation isolation",
+    "exact checkpoint resume and stale-log cleanup",
+    "fractional update-credit carry on Reacher"
+  ]
+}

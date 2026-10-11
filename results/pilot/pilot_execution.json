@@ -1,0 +1,128 @@
+{
+  "completed": [
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_balanced__d001__s000",
+      "status": "completed",
+      "elapsed_s": 71.487613904
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_balanced__d001__s001",
+      "status": "completed",
+      "elapsed_s": 71.67720446600015
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_no_ea_replay__d001__s000",
+      "status": "completed",
+      "elapsed_s": 67.49021445400012
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_balanced__d001__s002",
+      "status": "completed",
+      "elapsed_s": 69.45839353199995
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_no_ea_replay__d001__s001",
+      "status": "completed",
+      "elapsed_s": 71.35693076300004
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_no_ea_replay__d001__s002",
+      "status": "completed",
+      "elapsed_s": 71.49339447300008
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_pooled__d001__s000",
+      "status": "completed",
+      "elapsed_s": 78.57507358099997
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_pooled__d001__s001",
+      "status": "completed",
+      "elapsed_s": 78.25751845400009
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__td3__d001__s000",
+      "status": "reused",
+      "elapsed_s": 49.68061244699993
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__td3__d001__s001",
+      "status": "completed",
+      "elapsed_s": 78.37137464000011
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_pooled__d001__s002",
+      "status": "completed",
+      "elapsed_s": 80.16607638100004
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__td3__d001__s002",
+      "status": "completed",
+      "elapsed_s": 75.221116274
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_balanced__d001__s000",
+      "status": "completed",
+      "elapsed_s": 85.7927338290001
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_balanced__d001__s001",
+      "status": "completed",
+      "elapsed_s": 108.93881108999994
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_balanced__d001__s002",
+      "status": "completed",
+      "elapsed_s": 108.90252896999982
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_no_ea_replay__d001__s000",
+      "status": "completed",
+      "elapsed_s": 121.16995409799983
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_no_ea_replay__d001__s001",
+      "status": "completed",
+      "elapsed_s": 117.90244399199992
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_no_ea_replay__d001__s002",
+      "status": "completed",
+      "elapsed_s": 117.3005544319999
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_pooled__d001__s000",
+      "status": "completed",
+      "elapsed_s": 118.93607181400012
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_pooled__d001__s001",
+      "status": "completed",
+      "elapsed_s": 127.07584075600016
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__td3__d001__s000",
+      "status": "reused",
+      "elapsed_s": 55.36821245400006
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_pooled__d001__s002",
+      "status": "completed",
+      "elapsed_s": 129.994775356
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__td3__d001__s001",
+      "status": "completed",
+      "elapsed_s": 130.82575504199986
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__td3__d001__s002",
+      "status": "completed",
+      "elapsed_s": 128.69737021200035
+    }
+  ],
+  "failures": [],
+  "wall_time_s": 1132.2766267600002,
+  "workers": 2,
+  "profile": false
+}

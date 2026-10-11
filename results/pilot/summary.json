@@ -1,0 +1,465 @@
+{
+  "scope": "Immediate-reward development pilot; descriptive, not a test of H1",
+  "runs": [
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_balanced__d001__s000",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "seed": 0,
+      "initial_return": -1550.5235346144523,
+      "final_return": -151.94770822249905,
+      "return_change": 1398.5758263919533,
+      "raw_auc": -867.2011826213853,
+      "normalized_auc": 0.294520620806085,
+      "sampled_ea_fraction": 0.5,
+      "elapsed_s": 71.487613904,
+      "peak_rss_mib": 595.8359375
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_balanced__d001__s001",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "seed": 1,
+      "initial_return": -1657.1658890590284,
+      "final_return": -292.9568230579074,
+      "return_change": 1364.2090660011208,
+      "raw_auc": -960.4708915094412,
+      "normalized_auc": 0.21864450619443015,
+      "sampled_ea_fraction": 0.5,
+      "elapsed_s": 71.67720446600015,
+      "peak_rss_mib": 595.94140625
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_balanced__d001__s002",
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "seed": 2,
+      "initial_return": -1360.6166009016779,
+      "final_return": -70.62129529225057,
+      "return_change": 1289.9953056094273,
+      "raw_auc": -746.8498669012687,
+      "normalized_auc": 0.39242797287258685,
+      "sampled_ea_fraction": 0.5,
+      "elapsed_s": 69.45839353199995,
+      "peak_rss_mib": 597.0234375
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_no_ea_replay__d001__s000",
+      "task": "Pendulum-v1",
+      "arm": "erl_no_ea_replay",
+      "seed": 0,
+      "initial_return": -1550.5235346144523,
+      "final_return": -146.04982583187612,
+      "return_change": 1404.473708782576,
+      "raw_auc": -941.1426626164192,
+      "normalized_auc": 0.23436827040696157,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 67.49021445400012,
+      "peak_rss_mib": 596.6875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_no_ea_replay__d001__s001",
+      "task": "Pendulum-v1",
+      "arm": "erl_no_ea_replay",
+      "seed": 1,
+      "initial_return": -1657.1658890590284,
+      "final_return": -274.8801864459685,
+      "return_change": 1382.2857026130598,
+      "raw_auc": -1079.8658471870885,
+      "normalized_auc": 0.12151516539286644,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 71.35693076300004,
+      "peak_rss_mib": 597.98046875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_no_ea_replay__d001__s002",
+      "task": "Pendulum-v1",
+      "arm": "erl_no_ea_replay",
+      "seed": 2,
+      "initial_return": -1360.6166009016779,
+      "final_return": -73.83354267805163,
+      "return_change": 1286.7830582236263,
+      "raw_auc": -752.7310467280148,
+      "normalized_auc": 0.3876435570112537,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 71.49339447300008,
+      "peak_rss_mib": 596.9765625
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_pooled__d001__s000",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "seed": 0,
+      "initial_return": -1550.5235346144523,
+      "final_return": -146.98945373347868,
+      "return_change": 1403.5340808809735,
+      "raw_auc": -855.091680330442,
+      "normalized_auc": 0.30437185755456136,
+      "sampled_ea_fraction": 0.80014609375,
+      "elapsed_s": 78.57507358099997,
+      "peak_rss_mib": 595.15625
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_pooled__d001__s001",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "seed": 1,
+      "initial_return": -1657.1658890590284,
+      "final_return": -142.76667590581056,
+      "return_change": 1514.3992131532177,
+      "raw_auc": -946.6158953371717,
+      "normalized_auc": 0.22991572479309558,
+      "sampled_ea_fraction": 0.80003125,
+      "elapsed_s": 78.25751845400009,
+      "peak_rss_mib": 595.453125
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__erl_pooled__d001__s002",
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "seed": 2,
+      "initial_return": -1360.6166009016779,
+      "final_return": -71.33369742323484,
+      "return_change": 1289.2829034784431,
+      "raw_auc": -742.7857761127915,
+      "normalized_auc": 0.39573416329748434,
+      "sampled_ea_fraction": 0.800209375,
+      "elapsed_s": 80.16607638100004,
+      "peak_rss_mib": 595.36328125
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__td3__d001__s000",
+      "task": "Pendulum-v1",
+      "arm": "td3",
+      "seed": 0,
+      "initial_return": -1550.5235346144523,
+      "final_return": -150.18235233257082,
+      "return_change": 1400.3411822818814,
+      "raw_auc": -919.378419174264,
+      "normalized_auc": 0.2520737639647356,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 49.68061244699993,
+      "peak_rss_mib": 595.69921875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__td3__d001__s001",
+      "task": "Pendulum-v1",
+      "arm": "td3",
+      "seed": 1,
+      "initial_return": -1657.1658890590284,
+      "final_return": -126.51072983555912,
+      "return_change": 1530.6551592234691,
+      "raw_auc": -966.7766954559443,
+      "normalized_auc": 0.2135146531192185,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 78.37137464000011,
+      "peak_rss_mib": 595.88671875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Pendulum-v1__td3__d001__s002",
+      "task": "Pendulum-v1",
+      "arm": "td3",
+      "seed": 2,
+      "initial_return": -1360.6166009016779,
+      "final_return": -72.17546353549432,
+      "return_change": 1288.4411373661835,
+      "raw_auc": -762.3244130616198,
+      "normalized_auc": 0.3798392294099544,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 75.221116274,
+      "peak_rss_mib": 595.46875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_balanced__d001__s000",
+      "task": "Reacher-v5",
+      "arm": "erl_balanced",
+      "seed": 0,
+      "initial_return": -33.11201679464702,
+      "final_return": -6.436765938550854,
+      "return_change": 26.675250856096163,
+      "raw_auc": -14.710851267550014,
+      "normalized_auc": 0.6587054842184921,
+      "sampled_ea_fraction": 0.5,
+      "elapsed_s": 85.7927338290001,
+      "peak_rss_mib": 673.18359375
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_balanced__d001__s001",
+      "task": "Reacher-v5",
+      "arm": "erl_balanced",
+      "seed": 1,
+      "initial_return": -21.162614810151236,
+      "final_return": -9.324956406955332,
+      "return_change": 11.837658403195904,
+      "raw_auc": -12.631877908506198,
+      "normalized_auc": 0.7069380570990745,
+      "sampled_ea_fraction": 0.5,
+      "elapsed_s": 108.93881108999994,
+      "peak_rss_mib": 673.44921875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_balanced__d001__s002",
+      "task": "Reacher-v5",
+      "arm": "erl_balanced",
+      "seed": 2,
+      "initial_return": -32.77722638171276,
+      "final_return": -8.735596216530373,
+      "return_change": 24.041630165182383,
+      "raw_auc": -17.322855262473485,
+      "normalized_auc": 0.5981065003491353,
+      "sampled_ea_fraction": 0.5,
+      "elapsed_s": 108.90252896999982,
+      "peak_rss_mib": 680.73828125
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_no_ea_replay__d001__s000",
+      "task": "Reacher-v5",
+      "arm": "erl_no_ea_replay",
+      "seed": 0,
+      "initial_return": -33.11201679464702,
+      "final_return": -6.085845177536177,
+      "return_change": 27.02617161711084,
+      "raw_auc": -15.34289508261067,
+      "normalized_auc": 0.6440419488532984,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 121.16995409799983,
+      "peak_rss_mib": 674.7421875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_no_ea_replay__d001__s001",
+      "task": "Reacher-v5",
+      "arm": "erl_no_ea_replay",
+      "seed": 1,
+      "initial_return": -21.162614810151236,
+      "final_return": -8.776909027625088,
+      "return_change": 12.385705782526149,
+      "raw_auc": -13.448303517587894,
+      "normalized_auc": 0.6879968294396117,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 117.90244399199992,
+      "peak_rss_mib": 673.37890625
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_no_ea_replay__d001__s002",
+      "task": "Reacher-v5",
+      "arm": "erl_no_ea_replay",
+      "seed": 2,
+      "initial_return": -32.77722638171276,
+      "final_return": -8.565858388644127,
+      "return_change": 24.21136799306863,
+      "raw_auc": -16.43185934134612,
+      "normalized_auc": 0.6187777732709985,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 117.3005544319999,
+      "peak_rss_mib": 673.890625
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_pooled__d001__s000",
+      "task": "Reacher-v5",
+      "arm": "erl_pooled",
+      "seed": 0,
+      "initial_return": -33.11201679464702,
+      "final_return": -8.59783543750231,
+      "return_change": 24.514181357144707,
+      "raw_auc": -16.333638173574087,
+      "normalized_auc": 0.621056522833792,
+      "sampled_ea_fraction": 0.80014921875,
+      "elapsed_s": 118.93607181400012,
+      "peak_rss_mib": 672.1640625
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_pooled__d001__s001",
+      "task": "Reacher-v5",
+      "arm": "erl_pooled",
+      "seed": 1,
+      "initial_return": -21.162614810151236,
+      "final_return": -8.777820040377566,
+      "return_change": 12.38479476977367,
+      "raw_auc": -12.721211439040207,
+      "normalized_auc": 0.7048655023915226,
+      "sampled_ea_fraction": 0.7993140625,
+      "elapsed_s": 127.07584075600016,
+      "peak_rss_mib": 672.171875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__erl_pooled__d001__s002",
+      "task": "Reacher-v5",
+      "arm": "erl_pooled",
+      "seed": 2,
+      "initial_return": -32.77722638171276,
+      "final_return": -9.955681686895993,
+      "return_change": 22.821544694816765,
+      "raw_auc": -17.2829589809283,
+      "normalized_auc": 0.599032101583476,
+      "sampled_ea_fraction": 0.79963046875,
+      "elapsed_s": 129.994775356,
+      "peak_rss_mib": 672.6796875
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__td3__d001__s000",
+      "task": "Reacher-v5",
+      "arm": "td3",
+      "seed": 0,
+      "initial_return": -33.11201679464702,
+      "final_return": -7.548181441730925,
+      "return_change": 25.563835352916094,
+      "raw_auc": -15.999611005251666,
+      "normalized_auc": 0.6288060159526531,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 55.36821245400006,
+      "peak_rss_mib": 674.109375
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__td3__d001__s001",
+      "task": "Reacher-v5",
+      "arm": "td3",
+      "seed": 1,
+      "initial_return": -21.162614810151236,
+      "final_return": -9.328677792083296,
+      "return_change": 11.83393701806794,
+      "raw_auc": -12.845757895678254,
+      "normalized_auc": 0.7019760011765691,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 130.82575504199986,
+      "peak_rss_mib": 672.08203125
+    },
+    {
+      "run_id": "erl_cpu_delay_replay_v1__pilot__Reacher-v5__td3__d001__s002",
+      "task": "Reacher-v5",
+      "arm": "td3",
+      "seed": 2,
+      "initial_return": -32.77722638171276,
+      "final_return": -8.608764034147969,
+      "return_change": 24.16846234756479,
+      "raw_auc": -16.651775329309075,
+      "normalized_auc": 0.6136756809950747,
+      "sampled_ea_fraction": 0.0,
+      "elapsed_s": 128.69737021200035,
+      "peak_rss_mib": 672.2109375
+    }
+  ],
+  "groups": [
+    {
+      "task": "Pendulum-v1",
+      "arm": "td3",
+      "seeds": 3,
+      "final_mean": -116.28951523454141,
+      "final_sd": 39.995294671872436,
+      "raw_auc_mean": -882.8265092306093,
+      "elapsed_mean_s": 67.75770112033335
+    },
+    {
+      "task": "Pendulum-v1",
+      "arm": "erl_pooled",
+      "seeds": 3,
+      "final_mean": -120.36327568750805,
+      "final_sd": 42.51332287324561,
+      "raw_auc_mean": -848.1644505934684,
+      "elapsed_mean_s": 78.9995561386667
+    },
+    {
+      "task": "Pendulum-v1",
+      "arm": "erl_balanced",
+      "seeds": 3,
+      "final_mean": -171.84194219088567,
+      "final_sd": 112.49492048799347,
+      "raw_auc_mean": -858.1739803440317,
+      "elapsed_mean_s": 70.87440396733336
+    },
+    {
+      "task": "Pendulum-v1",
+      "arm": "erl_no_ea_replay",
+      "seeds": 3,
+      "final_mean": -164.92118498529877,
+      "final_sd": 101.8431852889972,
+      "raw_auc_mean": -924.5798521771743,
+      "elapsed_mean_s": 70.11351323000008
+    },
+    {
+      "task": "Reacher-v5",
+      "arm": "td3",
+      "seeds": 3,
+      "final_mean": -8.495207755987396,
+      "final_sd": 0.8956634885026791,
+      "raw_auc_mean": -15.165714743412998,
+      "elapsed_mean_s": 104.9637792360001
+    },
+    {
+      "task": "Reacher-v5",
+      "arm": "erl_pooled",
+      "seeds": 3,
+      "final_mean": -9.110445721591956,
+      "final_sd": 0.7375069437643457,
+      "raw_auc_mean": -15.44593619784753,
+      "elapsed_mean_s": 125.33556264200008
+    },
+    {
+      "task": "Reacher-v5",
+      "arm": "erl_balanced",
+      "seeds": 3,
+      "final_mean": -8.165772854012188,
+      "final_sd": 1.5260848743760187,
+      "raw_auc_mean": -14.888528146176563,
+      "elapsed_mean_s": 101.21135796299995
+    },
+    {
+      "task": "Reacher-v5",
+      "arm": "erl_no_ea_replay",
+      "seeds": 3,
+      "final_mean": -7.809537531268464,
+      "final_sd": 1.4964865822284983,
+      "raw_auc_mean": -15.074352647181561,
+      "elapsed_mean_s": 118.79098417399989
+    }
+  ],
+  "analyzer_sha256": "3f8d10ebcee266eae1c8a7c29b36e153fa6fdc0d1bab034956bda6974f6a387d",
+  "normalization_anchors": {
+    "Pendulum-v1": -1229.2367547471829,
+    "Reacher-v5": -43.10309889939075
+  },
+  "verified_runs": 24,
+  "total_training_transitions": 1200000,
+  "total_evaluation_transitions": 90000,
+  "total_critic_updates": 240000,
+  "total_actor_updates": 120000,
+  "sum_per_run_wall_seconds": 2214.1405754140005,
+  "scheduling_note": "The two seed-zero TD3 runs were profiled with 1 worker(s), then reused in the 24-run pilot; the remaining runs used 2 concurrent worker(s). Each run used one computational thread. Different contention makes per-method wall-time rankings unfair.",
+  "figures": [
+    {
+      "name": "learning-curves",
+      "caption": "Thin lines: 3 training seeds; thick line: seed mean. Each checkpoint averages 5 evaluation episodes. Shading: random-action warmup. No smoothing or confidence bands."
+    },
+    {
+      "name": "initial-final",
+      "caption": "Open point: untrained policy; filled point: 50,000 training steps. A movement to the right is improvement. Same 5 evaluation resets within each run; 3 independent training seeds per arm."
+    },
+    {
+      "name": "raw-auc",
+      "caption": "Points: individual training-seed AUC, trapezoidal integral divided by 50,000 steps, including initialization and warmup. Bars: mean of 3 seeds. Raw scales differ by task; these are descriptive results."
+    },
+    {
+      "name": "replay-provenance",
+      "caption": "Measured final collected/resident shares and cumulative sampled shares. Bars: mean of 3 seeds; black points: seeds (often overlapping). Warmup source tags identify collector slots, not evolved behavior."
+    },
+    {
+      "name": "replay-age",
+      "caption": "Thin lines: training seeds; thick lines: available-seed mean. Diagnostics do not consume training randomness. Missing source measurements are absent, not zero. Mean over all resident transitions by source; the 100,000-slot buffer never fills in this pilot."
+    },
+    {
+      "name": "replay-reuse",
+      "caption": "Thin lines: training seeds; thick lines: available-seed mean. Diagnostics do not consume training randomness. Missing source measurements are absent, not zero. Mean over all resident transitions by source; the 100,000-slot buffer never fills in this pilot."
+    },
+    {
+      "name": "population-diversity",
+      "caption": "Thin lines: training seeds; thick lines: available-seed mean. Diagnostics do not consume training randomness. Missing source measurements are absent, not zero. Probe coverage is limited; diverse actions need not be useful actions."
+    },
+    {
+      "name": "compute-cost",
+      "caption": "Each point is one run, including evaluation and checkpoint writes. The two seed-zero TD3 runs were profiled with 1 worker(s), then reused in the 24-run pilot; the remaining runs used 2 concurrent worker(s). Each run used one computational thread. Different contention makes per-method wall-time rankings unfair. Wall times overlap; peak RSS is per process."
+    },
+    {
+      "name": "lineage",
+      "caption": "Illustrative run chosen by task/arm/seed, not performance. Lines connect recorded parents to children; stars are learner copies. Fitness is a training diagnostic; lineage survival alone does not establish causal benefit."
+    }
+  ]
+}

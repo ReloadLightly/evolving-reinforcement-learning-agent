@@ -1,0 +1,77 @@
+{
+  "study_id": "erl_cpu_delay_replay_v1",
+  "status": "draft",
+  "artifact_type": "research_plan_not_training",
+  "hardware_target": "CPU or laptop; runtime must be measured in the pilot",
+  "tasks": [
+    {"id": "Pendulum-v1", "episode_horizon": 200},
+    {"id": "Reacher-v5", "episode_horizon": 50}
+  ],
+  "arms": [
+    {"id": "erl_balanced", "evolutionary_replay_fraction": 0.5, "replay_sampling": "source_stratified", "collect_evolutionary_transitions": true, "actor_injection": true},
+    {"id": "erl_pooled", "evolutionary_replay_fraction": null, "replay_sampling": "uniform_pooled", "collect_evolutionary_transitions": true, "actor_injection": true},
+    {"id": "erl_no_ea_replay", "evolutionary_replay_fraction": 0.0, "replay_sampling": "learner_only", "collect_evolutionary_transitions": true, "actor_injection": true},
+    {"id": "td3", "evolutionary_replay_fraction": 0.0, "replay_sampling": "learner_only", "collect_evolutionary_transitions": false, "actor_injection": false}
+  ],
+  "training": {
+    "total_transitions_per_run": 200000,
+    "counting_unit": "All training environment transitions, including population fitness rollouts",
+    "population_size": 4,
+    "hidden_sizes": [64, 64],
+    "batch_size": 128,
+    "critic_updates_per_total_transition": 0.25,
+    "warmup_total_transitions": 10000,
+    "replay_capacity": 100000,
+    "injection_interval_total_transitions": 5000
+  },
+  "evaluation": {
+    "every_total_training_transitions": 10000,
+    "include_initial_checkpoint": true,
+    "episodes_per_checkpoint": 5,
+    "policy": "focal RL learner",
+    "excluded_from_training_and_replay": true,
+    "transition_budget_basis": "Fixed episode horizon; early termination makes these upper bounds"
+  },
+  "reward_delays": [1, 20],
+  "confirmatory_seeds": [100, 101, 102, 103, 104, 105, 106, 107, 108, 109],
+  "pilot": {
+    "seeds": [0, 1, 2],
+    "reward_delays": [1],
+    "total_transitions_per_run": 50000,
+    "every_total_training_transitions": 10000,
+    "episodes_per_checkpoint": 5,
+    "include_initial_checkpoint": true
+  },
+  "first_stage": {
+    "tasks": ["Pendulum-v1"],
+    "arms": ["erl_balanced", "erl_pooled"]
+  },
+  "random_policy_normalization": {
+    "episodes_per_task": 20,
+    "seed": 900000,
+    "shared_across_training_seeds": true,
+    "reuse_across_stages": true,
+    "excluded_from_training_and_replay": true
+  },
+  "optional_experiments": [
+    {"id": "no_selection", "arms": ["erl_balanced_no_selection"], "reward_delays": [20], "evolutionary_replay_fractions": [0.5]},
+    {"id": "replay_dose", "arms": ["erl_alpha_025", "erl_alpha_075"], "reward_delays": [20], "evolutionary_replay_fractions": [0.25, 0.75]}
+  ],
+  "expected_budgets": {
+    "pilot": {"runs": 24, "training_transitions": 1200000, "evaluation_transition_budget": 90000},
+    "first": {"runs": 40, "training_transitions": 8000000, "evaluation_transition_budget": 840000},
+    "full": {"runs": 160, "training_transitions": 32000000, "evaluation_transition_budget": 2100000},
+    "no_selection": {"runs": 20, "training_transitions": 4000000, "evaluation_transition_budget": 262500},
+    "replay_dose": {"runs": 40, "training_transitions": 8000000, "evaluation_transition_budget": 525000},
+    "random_policy_normalization": {"evaluation_transition_budget": 5000}
+  },
+  "notes": [
+    "This file specifies planned experiments; no results or measured runtime are present.",
+    "The full stage includes the first stage with identical run IDs; do not rerun completed first-stage runs.",
+    "Pilot seeds are disjoint from confirmatory seeds and pilot results are excluded from confirmatory analyses.",
+    "Optional experiments are budgeted separately and never enter the core CSV manifests.",
+    "Uniform pooled replay has an emergent evolutionary fraction that must be logged; it is not a fixed alpha.",
+    "Normalization episodes are a shared one-time prerequisite and are not added to each stage's evaluation count.",
+    "Training, fitness rollouts, evaluation, and normalization interactions must be logged separately."
+  ]
+}
